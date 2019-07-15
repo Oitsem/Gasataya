@@ -36,6 +36,7 @@
             axios.get('/api/auth/user').then(res => {
                 this.user = res.data.user;
                 localStorage.setItem('user', JSON.stringify(res.data.user));
+                this.$store.state.user = res.data.user;
             });
         },
 
