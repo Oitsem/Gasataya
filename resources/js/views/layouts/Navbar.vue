@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container-fluid">
-            <router-link class="navbar-brand" :to="{ name: 'home' }">Affiliate</router-link>
+            <router-link class="navbar-brand" :to="{ name: 'home' }">Gasataya</router-link>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
