@@ -104,25 +104,25 @@
                                         <h4>Laboratory</h4>
                                     </label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check" v-if="laboratory">
                                     <input class="form-check-input" type="checkbox" value="1" id="laboratory-test" v-model="laboratory_test">
                                     <label class="form-check-label" for="laboratory-test">
                                         <h4>Laboratory Test</h4>
                                     </label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check" v-if="laboratory">
                                     <input class="form-check-input" type="checkbox" value="1" id="blood-processing" v-model="blood_processing">
                                     <label class="form-check-label" for="blood-processing">
                                         <h4>Blood Processing</h4>
                                     </label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check" v-if="laboratory">
                                     <input class="form-check-input" type="checkbox" value="1" id="biopsy" v-model="biopsy">
                                     <label class="form-check-label" for="biopsy">
                                         <h4>Biopsy</h4>
                                     </label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check" v-if="laboratory">
                                     <input class="form-check-input" type="checkbox" value="1" id="others" v-model="laboratory_others">
                                     <label class="form-check-label" for="others">
                                         <h4>Others</h4>
@@ -273,7 +273,8 @@
             },
             convertAmount() {
                 if (this.amount > 0) {
-                    this.amount_in_words = trim(amountConverter.convert(this.amount).toString().toUpperCase()) + 'PESOS ONLY';
+                    let string = amountConverter.convert(this.amount).toString().toUpperCase();
+                    this.amount_in_words = string.trim() + ' PESOS ONLY';
                 } else {
                     this.amount_in_words = '';
                 }
