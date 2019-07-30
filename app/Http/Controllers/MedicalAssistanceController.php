@@ -197,31 +197,34 @@ class MedicalAssistanceController extends Controller
      */
     public function generatePDF()
     {
-        $pdf = Zend_Pdf::load(storage_path('app/template_files/medical.pdf'));
+        $pdf = Zend_Pdf::load(storage_path('app/template_files/medical-assistance.pdf'));
 
         $page = $pdf->pages[0];
         $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_COURIER_BOLD);
 
         $page->setFont($font, 12);
         $name = request()->first_name . ' ' . substr(request()->middle_name, 0, 1) . '. ' . request()->last_name;
-        $page->drawText($name, 40, 363);
+        $page->drawText($name, 38, 375);
 
 
         $birthdate = new Carbon(request()->person['birthdate'], 'Asia/Manila');
         $age = $birthdate->diff(Carbon::today())->format('%y');
-        $page->drawText($age, 250, 363);
+        $page->drawText($age, 287, 375);
 
-        $page->setFont($font, 7);
-        $page->drawText(request()->person['address'], 35, 335);
-        $page->setFont($font, 12);
-        $page->drawText(request()->person['phone_number'], 228, 335);
+        $page->setFont($font, 10);
+        $page->drawText(request()->person['address'], 85, 345);
+        $page->setFont($font, 11);
+        $page->drawText(request()->person['phone_number'], 36, 317);
 
         $page->setFont($font, 15);
-        $page->drawText(request()->amount, 293, 305);
+        $page->drawText(request()->amount, 59, 287);
 
-        $page->setFont($font, 12);
-        $page->drawText(request()->amount_in_words, 110, 287);
+        $page->setFont($font, 10);
+        $page->drawText(request()->amount_in_words, 190, 287);
 
+        if (request()->hospital_bills) {
+            $page->drawText('X', 293, 305);
+        }
 
         $fileName = substr(request()->first_name, 0, 1) . substr(request()->last_name, 0, 1) . rand(100, 999) . '.pdf';
 

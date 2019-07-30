@@ -263,7 +263,7 @@
                     vm.persons = res.data;
                     loading(false);
                 });
-            }, 350),
+            }, 250),
             selectPerson() {
                 this.person_id   = this.person.id;
                 this.first_name  = this.person.first_name;
@@ -273,7 +273,7 @@
             },
             convertAmount() {
                 if (this.amount > 0) {
-                    this.amount_in_words = amountConverter.convert(this.amount).toString().toUpperCase() + ' PESOS ONLY';
+                    this.amount_in_words = trim(amountConverter.convert(this.amount).toString().toUpperCase()) + 'PESOS ONLY';
                 } else {
                     this.amount_in_words = '';
                 }
