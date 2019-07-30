@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Filtering;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -9,7 +10,14 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, Filtering;
+
+    /**
+     * Users table.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password'
     ];
 
     /**
@@ -37,4 +45,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The user has many persons.
+     *
+     * @return array object
+     */
+    public function persons()
+    {
+        return $this->hasMany(Person::class);
+    }
+
+    /**
+     * The user has many medical assistance
+     * @return [type] [description]
+     */
+    public function medicalAssistance()
+    {
+        return $this->hasMany(MedicalAssistance::class);
+    }
 }

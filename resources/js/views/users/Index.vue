@@ -127,11 +127,11 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" class="form-control" v-model="searchColumnName" autocomplete="off" maxlength="255">
+                                <input type="text" class="form-control" v-model="name" autocomplete="off" maxlength="255">
                             </div>
                             <div class="form-group">
                                 <label>Email Address</label>
-                                <input type="text" class="form-control" v-model="searchColumnEmail" autocomplete="off" maxlength="255">
+                                <input type="text" class="form-control" v-model="email" autocomplete="off" maxlength="255">
                             </div>
                             <div class="form-group">
                                 <label>Order By</label>
@@ -155,8 +155,8 @@
 </template>
 
 <script>
-    const getUsers = (page, per_page, searchColumnName, searchColumnEmail, order_by, callback) => {
-        const params = { page, per_page, searchColumnName, searchColumnEmail, order_by };
+    const getUsers = (page, per_page, name, email, order_by, callback) => {
+        const params = { page, per_page, name, email, order_by };
 
         axios.get('/api/users', { params }).then(res => {
             callback(null, res.data);
@@ -175,8 +175,8 @@
         data() {
             return {
                 users: null,
-                searchColumnName: '',
-                searchColumnEmail: '',
+                name: '',
+                email: '',
                 order_by: 'desc',
                 meta: {
                     current_page: null,
@@ -201,18 +201,18 @@
 
         beforeRouteEnter (to, from, next) {
             if (to.query.per_page == null) {
-                getUsers(to.query.page, 10, to.query.searchColumnName, to.query.searchColumnEmail, to.query.order_by, (err, data) => {
+                getUsers(to.query.page, 10, to.query.name, to.query.email, to.query.order_by, (err, data) => {
                     next(vm => vm.setData(err, data));
                 });
             } else {
-                getUsers(to.query.page, to.query.per_page, to.query.searchColumnName, to.query.searchColumnEmail, to.query.order_by, (err, data) => {
+                getUsers(to.query.page, to.query.per_page, to.query.name, to.query.email, to.query.order_by, (err, data) => {
                     next(vm => vm.setData(err, data));
                 });
             }
         },
 
         beforeRouteUpdate (to, from, next) {
-            getUsers(to.query.page, this.meta.per_page, this.searchColumnName, this.searchColumnEmail, this.order_by, (err, data) => {
+            getUsers(to.query.page, this.meta.per_page, this.name, this.email, this.order_by, (err, data) => {
                 this.setData(err, data);
                 next();
             });
@@ -265,8 +265,8 @@
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnEmail: this.searchColumnEmail,
+                        name: this.name,
+                        email: this.email,
                         order_by: this.order_by
                     }
                 });
@@ -277,8 +277,8 @@
                     name: 'users.index',
                     query: {
                         page,
-                        per_page: this.meta.per_page,searchColumnName: this.searchColumnName,
-                        searchColumnEmail: this.searchColumnEmail,
+                        per_page: this.meta.per_page,name: this.name,
+                        email: this.email,
                         order_by: this.order_by
                     }
                 });
@@ -290,8 +290,8 @@
                     query: {
                         page: this.meta.last_page,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnEmail: this.searchColumnEmail,
+                        name: this.name,
+                        email: this.email,
                         order_by: this.order_by
                     }
                 });
@@ -303,8 +303,8 @@
                     query: {
                         page: this.nextPage,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnEmail: this.searchColumnEmail,
+                        name: this.name,
+                        email: this.email,
                         order_by: this.order_by
                     }
                 });
@@ -316,8 +316,8 @@
                     query: {
                         page: this.prevPage,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnEmail: this.searchColumnEmail,
+                        name: this.name,
+                        email: this.email,
                         order_by: this.order_by
                     }
                 });
@@ -393,8 +393,8 @@
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnEmail: this.searchColumnEmail,
+                        name: this.name,
+                        email: this.email,
                         order_by: this.order_by
                     }
                 });
@@ -407,15 +407,15 @@
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnEmail: this.searchColumnEmail,
+                        name: this.name,
+                        email: this.email,
                         order_by: this.order_by
                     }
                 });
             },
             clear() {
-                this.searchColumnName = '';
-                this.searchColumnEmail = '';
+                this.name = '';
+                this.email = '';
                 this.order_by = 'desc';
             },
             openSearchModal() {

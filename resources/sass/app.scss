@@ -2,6 +2,9 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
+// Vue Select
+@import '~vue-select/src/scss/vue-select.scss';
+
 // Variables
 @import 'variables';
 
@@ -10,7 +13,7 @@
 
 .navbar-laravel {
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 body {
@@ -30,14 +33,6 @@ table.table {
     margin-bottom: -1rem;
 }
 
-.custom-navbar {
-    background-color: white;
-    border-bottom: 1px solid #d3e0e9;
-    margin-bottom: 22px;
-    min-height: 50px;
-    padding: .2rem 1rem;
-}
-
 .background {
     background-color: white;
     border: 1px solid #d3e0e9;
@@ -46,9 +41,10 @@ table.table {
 }
 
 .sidebar-nav li > span.main-title {
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 0.7);
     font-size: 85%;
     font-weight: 400;
+    padding-top: 15px;
 }
 
 .sidebar-nav li > span {
@@ -63,10 +59,10 @@ table.table {
     font-size: 100%;
 }
 
-.navbar-brand {
-    color: #5e5d5d !important;
-    font-size: 18px;
-}
+// .navbar-brand {
+//     color: #5e5d5d !important;
+//     font-size: 18px;
+// }
 
 .card {
     border: 1px solid #d3e0e9;

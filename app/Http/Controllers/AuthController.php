@@ -9,30 +9,6 @@ use Illuminate\Support\Facades\DB;
 class AuthController extends Controller
 {
     /**
-     * Register new user.
-     *
-     * @param Request $request Request class
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function register(Request $request)
-    {
-        $request->validate([
-            'first_name' => 'required|string|max:50',
-            'last_name'  => 'required|string|max:50',
-            'email'      => 'required|string|email|max:255|unique:users',
-            'password'   => 'required|string|min:6|confirmed'
-        ]);
-
-        return User::create([
-            'first_name' => $request->first_name,
-            'last_name'  => $request->last_name,
-            'email'      => $request->email,
-            'password'   => bcrypt($request->password)
-        ]);
-    }
-
-    /**
      * Login user.
      *
      * @param Request $request Request class
@@ -91,44 +67,6 @@ class AuthController extends Controller
                 $token->delete();
             }
         );
-
-        return response()->json('Logged out successfully', 200);
-    }
-
-    /**
-     * Show the application's login form.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function showLoginForm()
-    {
-        return view('auth.login');
-    }
-
-    /**
-     * Login user.
-     *
-     * @param Request $request Request class
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
-        }
-    }
-
-    /**
-     * Logout user and delete token.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function logout()
-    {
-        Auth::logout();
 
         return response()->json('Logged out successfully', 200);
     }
