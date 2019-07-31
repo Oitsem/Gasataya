@@ -41,6 +41,22 @@
                     </li>
                 </ul>
             </div>
+            <li class="nav-item">
+                <a class="nav-link" href="#burial" data-toggle="collapse" aria-expanded="false" aria-controls="burial">
+                    Burial <i class="float-right fas fa-caret-down"></i>
+                </a>
+            </li>
+            <div class="collapse" id="Burial">
+                <ul class="nav flex-column nav-sub-menu">
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name: 'burial.create' }">Create New Burial</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name: 'burial.index' }">View Burial</router-link>
+                    </li>
+                </ul>
+            </div>
+
 
             <li class="nav-item">
                 <span class="nav-link main-title">Queuing</span>
