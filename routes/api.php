@@ -17,11 +17,11 @@ Route::group(['middleware' => ['api']], function () {
         ]
     ]);
 
-    // Burial
-    Route::match(['put', 'patch'], '/burial/{burial}/restore', 'BurialController@restore');
-    Route::delete('/burial/{burial}/force-delete', 'BurialController@forceDestroy');
-    Route::get('/burial/search', 'BurialController@search');
-    Route::resource('burial', 'BurialController', [
+    // Burials
+    Route::match(['put', 'patch'], '/burials/{burial}/restore', 'BurialsController@restore');
+    Route::delete('/burials/{burial}/force-delete', 'BurialsController@forceDestroy');
+    Route::get('/burials/search', 'BurialsController@search');
+    Route::resource('burials', 'BurialsController', [
         'only' => [
             'index', 'store', 'show', 'update', 'destroy'
         ]

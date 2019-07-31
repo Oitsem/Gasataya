@@ -6,12 +6,8 @@ use App\Http\Resources\BurialResource;
 use App\Repositories\BurialRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
-use Zend_Pdf;
-use Zend_Pdf_Font;
 
-class BurialController extends Controller
+class BurialsController extends Controller
 {
    /**
      * Burial repository.
@@ -68,8 +64,6 @@ class BurialController extends Controller
                 'errors'  => $validator->errors()
             ], 400);
         }
-
-        $this->generatePDF();
 
         if (! $this->burial->store($request)) {
             return response()->json([
@@ -188,61 +182,5 @@ class BurialController extends Controller
         return response()->json([
             'message' => 'Resource successfully deleted permanently'
         ], 200);
-    }
-
-    /**
-     * Generate PDF file.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function generatePDF()
-    {
-        $pdf = Zend_Pdf::load(storage_path('app/template_files/medical-assistance.pdf'));
-
-        $page = $pdf->pages[0];
-        $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_COURIER_BOLD);
-
-        $page->setFont($font, 12);
-        $name = request()->first_name . ' ' . substr(request()->middle_name, 0, 1) . '. ' . request()->last_name;
-        $page->drawText($name, 38, 375);
-
-
-        $birthdate = new Carbon(request()->person['birthdate'], 'Asia/Manila');
-        $age = $birthdate->diff(Carbon::today())->format('%y');
-        $page->drawText($age, 287, 375);
-
-        $page->setFont($font, 10);
-        $page->drawText(request()->person['address'], 85, 345);
-        $page->setFont($font, 11);
-        $page->drawText(request()->person['phone_number'], 36, 317);
-
-        $page->setFont($font, 15);
-        $page->drawText(request()->amount, 59, 287);
-
-        $page->setFont($font, 10);
-        $page->drawText(request()->amount_in_words, 190, 287);
-
-        if (request()->hospital_bills) {
-            $page->drawText('X', 293, 305);
-        }
-
-        $fileName = substr(request()->first_name, 0, 1) . substr(request()->last_name, 0, 1) . rand(100, 999) . '.pdf';
-
-        $year = Carbon::now()->year;
-        $month = Carbon::now()->format('F');
-        Storage::makeDirectory('public/medical_records/' . $year . '/' . $month, 0775, true);
-
-        $path = storage_path('app/public/medical_records/' . $year . '/' . $month . '/' . $fileName);
-
-        request()->merge([
-            'file' => $year . '/' . $month . '/' . $fileName
-        ]);
-
-        $pdf->save($path);
-
-        header('Content-Type:', 'application/pdf');
-        header('Content-Disposition:', 'inline');
-
-        return;
     }
 }

@@ -10,11 +10,11 @@ class Burial extends Model
    use Filtering;
 
     /**
-     * Burial table.
+     * Burials table.
      *
      * @var string
      */
-    protected $table = 'Burial';
+    protected $table = 'burials';
 
     /**
      * The attributes that are mass assignable.

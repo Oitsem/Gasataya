@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBurialTable extends Migration
+class CreateBurialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateBurialTable extends Migration
      */
     public function up()
     {
-        Schema::create('burial', function (Blueprint $table) {
+        Schema::create('burials', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')
@@ -40,6 +40,6 @@ class CreateBurialTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('burial');
+        Schema::dropIfExists('burials');
     }
 }

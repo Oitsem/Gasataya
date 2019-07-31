@@ -41,13 +41,13 @@ const QueuesMedical = () => import('./views/queues/Medical');
 const QueuesSolicitation = () => import('./views/queues/Solicitation');
 
 /*
- *burial
+ * Burials
  *
  */
-const BurialIndex = () => import('./views/burial/Index');
-const BurialCreate = () => import('./views/burial/Create');
-const BurialView = () => import('./views/burial/View');
-const BurialEdit = () => import('./views/burial/Edit');
+const BurialsIndex = () => import('./views/burials/Index');
+const BurialsCreate = () => import('./views/burials/Create');
+const BurialsView = () => import('./views/burials/View');
+const BurialsEdit = () => import('./views/burials/Edit');
 
 const router = new Router({
   mode: 'history',
@@ -78,11 +78,11 @@ const router = new Router({
     { path: '/users/:id', name: 'users.view', component: UsersView },
     { path: '/users/:id/edit', name: 'users.edit', component: UsersEdit },
 
-    //Burial
-    { path: '/burial', name: 'burial.index', component: BurialIndex },
-    { path: '/burial/create', name: 'burial.create', component: BurialCreate },
-    { path: '/burial/:id', name: 'burial.view', component: BurialView },
-    { path: '/burial/:id/edit', name: 'burial.edit', component: BurialEdit }
+    // Burials
+    { path: '/burials', name: 'burials.index', component: BurialsIndex },
+    { path: '/burials/create', name: 'burials.create', component: BurialsCreate },
+    { path: '/burials/:id', name: 'burials.view', component: BurialsView },
+    { path: '/burials/:id/edit', name: 'burials.edit', component: BurialsEdit }
   ]
 });
 

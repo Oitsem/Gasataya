@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Person extends Model
 {
     use Filtering;
-    
+
     /**
      * Persons table.
      *

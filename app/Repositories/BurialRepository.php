@@ -16,4 +16,15 @@ class BurialRepository extends Repository
         parent::__construct($burial);
         $this->burial = $burial;
     }
+
+    /**
+     * Find the resource using the specified id or else fail.
+     *
+     * @param  int $id
+     * @return json object
+     */
+    public function findOrFail($id)
+    {
+        return $this->burial->with('person')->findOrFail($id);
+    }
 }
