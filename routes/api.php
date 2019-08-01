@@ -1,12 +1,14 @@
 <?php
 
+use App\Events\TestEvent;
+
 // Auth
 Route::post('/auth/login', 'AuthController@apiLogin');
 Route::post('/auth/logout', 'AuthController@apiLogout')->name('logout');
 Route::get('/auth/user', 'AuthController@user');
 
 
-Route::group(['middleware' => ['api']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
     // Medical Assistance
     Route::match(['put', 'patch'], '/medical-assistance/{medical-assistance}/restore', 'MedicalAssistanceController@restore');
     Route::delete('/medical-assistance/{medical-assistance}/force-delete', 'MedicalAssistanceController@forceDestroy');
@@ -40,4 +42,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/queues', 'QueuesController@store');
     Route::get('/queues/{type?}', 'QueuesController@index');
     Route::get('/queues/{type}/{queue}', 'QueuesController@show');
+
+    Route::get('/', function () {
+        event(new TestEvent('POTA HAHAHA'));
+    });
 });

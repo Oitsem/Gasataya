@@ -8,7 +8,10 @@
                     <span class="text-secondary">View Users</span>
                 </div>
                 <div class="float-right">
-                    <router-link class="btn btn-success btn-sm" :to="{ name: 'users.create' }"><i class="fas fa-plus"></i>&nbsp; Create New User</router-link>
+                    <router-link class="btn btn-success btn-sm" :to="{ name: 'users.create' }">
+                        <i class="fas fa-plus"></i>&nbsp;
+                        <strong>Create New User</strong>
+                    </router-link>
                 </div>
             </div>
             <div class="card-body">
@@ -16,7 +19,7 @@
                     <caption>
                         <div class="row">
                             <div class="col-md-9">
-                                List of Users - Total Items {{ this.meta.total }}
+                                List of Users - <strong>Total Items {{ this.meta.total }}</strong>
                             </div>
                             <div class="col-md-3">
                                 <div class="progress" height="30px;" v-if="showProgress">
@@ -38,11 +41,13 @@
                             <td>{{ email }}</td>
                             <td>
                                 <router-link class="text-secondary" :to="{ name: 'users.view', params: { id: id } }">
-                                    <i class="fas fa-envelope-open-text"></i> View
+                                    <i class="fas fa-eye"></i>
+                                    <strong>View</strong>
                                 </router-link>
-                                |
+                                &nbsp; | &nbsp;
                                 <router-link class="text-secondary" :to="{ name: 'users.edit', params: { id: id }}">
-                                    <i class="fas fa-edit"></i> Edit
+                                    <i class="fas fa-edit"></i>
+                                    <strong>Edit</strong>
                                 </router-link>
                             </td>
                         </tr>
@@ -58,19 +63,19 @@
                 <nav class="float-left">
                     <ul class="pagination">
                         <li class="page-item" v-bind:class="isPrevDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled>Previous</a>
+                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled><strong>Previous</strong></a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="#" @click.prevent="goToFirstPage">First</a>
+                            <a class="page-link" href="#" @click.prevent="goToFirstPage"><strong>First</strong></a>
                         </li>
                         <li class="page-item" v-for="pageNumber in pageNumbers" v-bind:class="isPageActive(pageNumber)">
                             <a class="page-link" href="#" @click.prevent="goToPage(pageNumber)">{{ pageNumber }}</a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToLastPage">Last</a>
+                            <a class="page-link" href="#" @click.prevent="goToLastPage"><strong>Last</strong></a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToNextPage">Next</a>
+                            <a class="page-link" href="#" @click.prevent="goToNextPage"><strong>Next</strong></a>
                         </li>
                     </ul>
                 </nav>
@@ -79,19 +84,19 @@
                 <nav class="float-left">
                     <ul class="pagination">
                         <li class="page-item" v-bind:class="isPrevDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled>Previous</a>
+                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled><strong>Previous</strong></a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="#" @click.prevent="goToFirstPage">First</a>
+                            <a class="page-link" href="#" @click.prevent="goToFirstPage"><strong>First</strong></a>
                         </li>
                         <li class="page-item" v-for="pageNumber in pageNumbers" v-bind:class="isPageActive(pageNumber)">
                             <a class="page-link" href="#" @click.prevent="goToPage(pageNumber)">{{ pageNumber }}</a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToLastPage">Last</a>
+                            <a class="page-link" href="#" @click.prevent="goToLastPage"><strong>Last</strong></a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToNextPage">Next</a>
+                            <a class="page-link" href="#" @click.prevent="goToNextPage"><strong>Next</strong></a>
                         </li>
                     </ul>
                 </nav>
@@ -99,7 +104,10 @@
 
             <div class="float-right">
                 <form class="form-inline">
-                    <button type="button" class="btn btn-primary mr-2" @click.prevent.default="openSearchModal()">Search Users</button>
+                    <button type="button" class="btn btn-primary mr-2" @click.prevent.default="openSearchModal()">
+                        <i class="fas fa-search"></i>
+                        Search Users
+                    </button>
                     <label class="sr-only" for="Number of Items">Number of Items</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -119,7 +127,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Search users</h5>
+                            <h5 class="modal-title">Search Users</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

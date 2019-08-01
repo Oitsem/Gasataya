@@ -73,8 +73,14 @@
 
                         <br>
 
-                        <router-link class="btn btn-outline-secondary btn-sm" :to="{ name: 'users.index' }"><i class="fas fa-chevron-left"></i>&nbsp; Back</router-link>
-                        <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-edit"></i>&nbsp; Update Person</button>
+                        <router-link class="btn btn-outline-secondary btn-sm" :to="{ name: 'persons.index' }">
+                            <i class="fas fa-chevron-left"></i>&nbsp;
+                            <strong>Back</strong>
+                        </router-link>
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <i class="fas fa-edit"></i>&nbsp;
+                            <strong>Update Person</strong>
+                        </button>
                     </form>
                 </div>
                 <div v-else>

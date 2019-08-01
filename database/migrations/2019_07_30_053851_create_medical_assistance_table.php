@@ -42,7 +42,7 @@ class CreateMedicalAssistanceTable extends Migration
             $table->boolean('echo')->default(false);
             $table->boolean('mri')->default(false);
             $table->boolean('radiology_others')->default(false);
-            $table->string('radiology_others_detail')->nullable();
+            $table->string('radiology_others_details')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -8,7 +8,10 @@
                     <span class="text-secondary">View Persons</span>
                 </div>
                 <div class="float-right">
-                    <router-link class="btn btn-success btn-sm" :to="{ name: 'persons.create' }"><i class="fas fa-plus"></i>&nbsp; Create New Person</router-link>
+                    <router-link class="btn btn-success btn-sm" :to="{ name: 'persons.create' }">
+                        <i class="fas fa-plus"></i>&nbsp;
+                        <strong>Create New Person</strong>
+                    </router-link>
                 </div>
             </div>
             <div class="card-body">
@@ -16,7 +19,7 @@
                     <caption>
                         <div class="row">
                             <div class="col-md-9">
-                                List of Persons - Total Items {{ this.meta.total }}
+                                List of Persons - <strong>Total Items {{ this.meta.total }}</strong>
                             </div>
                             <div class="col-md-3">
                                 <div class="progress" height="30px;" v-if="showProgress">
@@ -40,11 +43,13 @@
                             <td>{{ person.last_name }}</td>
                             <td>
                                 <router-link class="text-secondary" :to="{ name: 'persons.view', params: { id: person.id } }">
-                                    <i class="fas fa-envelope-open-text"></i> View
+                                    <i class="fas fa-eye"></i>
+                                    <strong>View</strong>
                                 </router-link>
-                                |
+                                &nbsp; | &nbsp;
                                 <router-link class="text-secondary" :to="{ name: 'persons.edit', params: { id: person.id }}">
-                                    <i class="fas fa-edit"></i> Edit
+                                    <i class="fas fa-edit"></i>
+                                    <strong>Edit</strong>
                                 </router-link>
                             </td>
                         </tr>
@@ -60,19 +65,19 @@
                 <nav class="float-left">
                     <ul class="pagination">
                         <li class="page-item" v-bind:class="isPrevDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled>Previous</a>
+                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled><strong>Previous</strong></a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="#" @click.prevent="goToFirstPage">First</a>
+                            <a class="page-link" href="#" @click.prevent="goToFirstPage"><strong>First</strong></a>
                         </li>
                         <li class="page-item" v-for="pageNumber in pageNumbers" v-bind:class="isPageActive(pageNumber)">
                             <a class="page-link" href="#" @click.prevent="goToPage(pageNumber)">{{ pageNumber }}</a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToLastPage">Last</a>
+                            <a class="page-link" href="#" @click.prevent="goToLastPage"><strong>Last</strong></a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToNextPage">Next</a>
+                            <a class="page-link" href="#" @click.prevent="goToNextPage"><strong>Next</strong></a>
                         </li>
                     </ul>
                 </nav>
@@ -81,19 +86,19 @@
                 <nav class="float-left">
                     <ul class="pagination">
                         <li class="page-item" v-bind:class="isPrevDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled>Previous</a>
+                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled><strong>Previous</strong></a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="#" @click.prevent="goToFirstPage">First</a>
+                            <a class="page-link" href="#" @click.prevent="goToFirstPage"><strong>First</strong></a>
                         </li>
                         <li class="page-item" v-for="pageNumber in pageNumbers" v-bind:class="isPageActive(pageNumber)">
                             <a class="page-link" href="#" @click.prevent="goToPage(pageNumber)">{{ pageNumber }}</a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToLastPage">Last</a>
+                            <a class="page-link" href="#" @click.prevent="goToLastPage"><strong>Last</strong></a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToNextPage">Next</a>
+                            <a class="page-link" href="#" @click.prevent="goToNextPage"><strong>Next</strong></a>
                         </li>
                     </ul>
                 </nav>
@@ -101,7 +106,10 @@
 
             <div class="float-right">
                 <form class="form-inline">
-                    <button type="button" class="btn btn-primary mr-2" @click.prevent.default="openSearchModal()">Search Persons</button>
+                    <button type="button" class="btn btn-primary mr-2" @click.prevent.default="openSearchModal()">
+                        <i class="fas fa-search"></i>&nbsp;
+                        <strong>Search Persons</strong>
+                    </button>
                     <label class="sr-only" for="Number of Items">Number of Items</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -144,6 +152,15 @@
                                     <div class="form-group">
                                         <label for="name">Last Name</label>
                                         <input type="text" class="form-control" v-model="last_name" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+
+                                <div class="w-100"></div>
+
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="name">Address</label>
+                                        <textarea class="form-control" v-model="address" maxlength="1000"></textarea>
                                     </div>
                                 </div>
 
@@ -201,8 +218,32 @@
 </template>
 
 <script>
-    const getPersons = (page, per_page, searchColumnName, searchColumnEmail, order_by, callback) => {
-        const params = { page, per_page, searchColumnName, searchColumnEmail, order_by };
+    const getPersons = (
+        page, per_page,
+        first_name,
+        middle_name,
+        last_name,
+        address,
+        birthdate,
+        email,
+        phone_number,
+        telephone_number,
+        order_by,
+        callback
+    ) => {
+        const params = {
+            page,
+            per_page,
+            first_name,
+            middle_name,
+            last_name,
+            address,
+            birthdate,
+            email,
+            phone_number,
+            telephone_number,
+            order_by
+        };
 
         axios.get('/api/persons', { params }).then(res => {
             callback(null, res.data);
@@ -224,6 +265,7 @@
                 first_name: '',
                 middle_name: '',
                 last_name: '',
+                address: '',
                 birthdate: '',
                 email: '',
                 phone_number: '',
@@ -252,21 +294,60 @@
 
         beforeRouteEnter (to, from, next) {
             if (to.query.per_page == null) {
-                getPersons(to.query.page, 10, to.query.searchColumnName, to.query.searchColumnEmail, to.query.order_by, (err, data) => {
-                    next(vm => vm.setData(err, data));
-                });
+                getPersons(
+                    to.query.page,
+                    10,
+                    to.query.first_name,
+                    to.query.middle_name,
+                    to.query.last_name,
+                    to.query.address,
+                    to.query.birthdate,
+                    to.query.email,
+                    to.query.phone_number,
+                    to.query.telephone_number,
+                    to.query.order_by,
+                    (err, data) => {
+                        next(vm => vm.setData(err, data));
+                    }
+                );
             } else {
-                getPersons(to.query.page, to.query.per_page, to.query.searchColumnName, to.query.searchColumnEmail, to.query.order_by, (err, data) => {
-                    next(vm => vm.setData(err, data));
-                });
+                getPersons(
+                    to.query.page,
+                    to.query.per_page,
+                    to.query.first_name,
+                    to.query.middle_name,
+                    to.query.last_name,
+                    to.query.address,
+                    to.query.birthdate,
+                    to.query.email,
+                    to.query.phone_number,
+                    to.query.telephone_number,
+                    to.query.order_by,
+                    (err, data) => {
+                        next(vm => vm.setData(err, data));
+                    }
+                );
             }
         },
 
         beforeRouteUpdate (to, from, next) {
-            getPersons(to.query.page, this.meta.per_page, this.searchColumnName, this.searchColumnEmail, this.order_by, (err, data) => {
-                this.setData(err, data);
-                next();
-            });
+            getPersons(
+                to.query.page,
+                this.meta.per_page,
+                this.first_name,
+                this.middle_name,
+                this.last_name,
+                this.address,
+                this.birthdate,
+                this.email,
+                this.phone_number,
+                this.telephone_number,
+                this.order_by,
+                (err, data) => {
+                    this.setData(err, data);
+                    next();
+                }
+            );
         },
 
         computed: {
@@ -312,13 +393,14 @@
             goToFirstPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'items.index',
+                    name: 'persons.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
                         first_name: this.first_name,
                         middle_name: this.middle_name,
                         last_name: this.last_name,
+                        address: this.address,
                         birthdate: this.birthdate,
                         email: this.email,
                         phone_number: this.phone_number,
@@ -330,13 +412,14 @@
             goToPage(page = null) {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'items.index',
+                    name: 'persons.index',
                     query: {
                         page,
                         per_page: this.meta.per_page,
                         first_name: this.first_name,
                         middle_name: this.middle_name,
                         last_name: this.last_name,
+                        address: this.address,
                         birthdate: this.birthdate,
                         email: this.email,
                         phone_number: this.phone_number,
@@ -355,6 +438,7 @@
                         first_name: this.first_name,
                         middle_name: this.middle_name,
                         last_name: this.last_name,
+                        address: this.address,
                         birthdate: this.birthdate,
                         email: this.email,
                         phone_number: this.phone_number,
@@ -373,6 +457,7 @@
                         first_name: this.first_name,
                         middle_name: this.middle_name,
                         last_name: this.last_name,
+                        address: this.address,
                         birthdate: this.birthdate,
                         email: this.email,
                         phone_number: this.phone_number,
@@ -391,6 +476,7 @@
                         first_name: this.first_name,
                         middle_name: this.middle_name,
                         last_name: this.last_name,
+                        address: this.address,
                         birthdate: this.birthdate,
                         email: this.email,
                         phone_number: this.phone_number,
@@ -473,6 +559,7 @@
                         first_name: this.first_name,
                         middle_name: this.middle_name,
                         last_name: this.last_name,
+                        address: this.address,
                         birthdate: this.birthdate,
                         email: this.email,
                         phone_number: this.phone_number,
@@ -483,6 +570,7 @@
             },
             search() {
                 $('#searchModal').modal('hide');
+
                 this.showProgress = true;
                 this.$router.push({
                     name: 'persons.index',
@@ -492,6 +580,7 @@
                         first_name: this.first_name,
                         middle_name: this.middle_name,
                         last_name: this.last_name,
+                        address: this.address,
                         birthdate: this.birthdate,
                         email: this.email,
                         phone_number: this.phone_number,
@@ -502,8 +591,13 @@
             },
             clear() {
                 this.first_name = '';
+                this.middle_name = '';
+                this.last_name = '';
+                this.address = '';
+                this.birthdate = '';
                 this.email = '';
-                this
+                this.phone_number ='';
+                this.telephone_number ='';
                 this.order_by = 'desc';
             },
             openSearchModal() {

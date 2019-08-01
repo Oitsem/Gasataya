@@ -10,9 +10,9 @@
                 <div v-if="ifReady">
                     <form v-on:submit.prevent="createNewMedicalAssistance()">
                         <div class="row">
-                            <div class="col">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Person</label>
+                                    <label>Search Person</label>
                                     <vue-select label="name" :filterable="false" v-model="person" @input="selectPerson()" :options="persons" @search="onSearch">
                                         <template slot="no-options">
                                             Search Persons
@@ -203,8 +203,14 @@
 
                         <br>
 
-                        <router-link class="btn btn-outline-secondary btn-sm" :to="{ name: 'medical-assistance.index' }"><i class="fas fa-chevron-left"></i>&nbsp; Back</router-link>
-                        <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-plus"></i>&nbsp; Create New Medical Assistance</button>
+                        <router-link class="btn btn-outline-secondary btn-sm" :to="{ name: 'medical-assistance.index' }">
+                            <i class="fas fa-chevron-left"></i>&nbsp;
+                            <strong>Back</strong>
+                        </router-link>
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <i class="fas fa-plus"></i>&nbsp;
+                            <strong>Create New Medical Assistance</strong>
+                        </button>
                     </form>
                 </div>
 
@@ -281,7 +287,7 @@
             },
             createNewMedicalAssistance() {
                 this.ifReady = false;
-                
+
                 axios.post('/api/medical-assistance', this.$data).then(res => {
                     this.$router.push({ name: 'medical-assistance.index' });
                 }).catch(err => {

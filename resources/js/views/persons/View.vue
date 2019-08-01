@@ -78,9 +78,18 @@
 
                     <br>
 
-                    <router-link class="btn btn-outline-secondary btn-sm" :to="{ name: 'persons.index' }"><i class="fas fa-chevron-left"></i>&nbsp; Back</router-link>
-                    <router-link class="btn btn-primary btn-sm" :to="{ name: 'persons.edit' , params: { id: person.id }}"><i class="fas fa-edit"></i>&nbsp; Edit Person</router-link>
-                    <button type="button" class="btn btn-danger btn-sm" @click.prevent.default="openDeleteModal()"><i class="fas fa-trash-alt"></i>&nbsp; Delete Person</button>
+                    <router-link class="btn btn-outline-secondary btn-sm" :to="{ name: 'persons.index' }">
+                        <i class="fas fa-chevron-left"></i>&nbsp;
+                        <strong>Back</strong>
+                    </router-link>
+                    <router-link class="btn btn-primary btn-sm" :to="{ name: 'persons.edit' , params: { id: person.id }}">
+                        <i class="fas fa-edit"></i>&nbsp;
+                        <strong>Edit Person</strong>
+                    </router-link>
+                    <button type="button" class="btn btn-danger btn-sm" @click.prevent.default="openDeleteModal()">
+                        <i class="fas fa-trash-alt"></i>&nbsp;
+                        <strong>Delete Person</strong>
+                    </button>
                 </div>
                 <div v-else>
                     <div class="progress">
@@ -103,8 +112,12 @@
                         Are you sure you want to delete this Person?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-sm" @click.prevent.default="deletePerson()">Confirm Delete</button>
-                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger btn-sm" @click.prevent.default="deletePerson()">
+                            <strong>Confirm Delete</strong>
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
+                            <strong>Close</strong>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -112,7 +125,7 @@
 
         <br>
 
-        <div class="card">
+        <div class="card" v-if="medicalAssistance">
             <div class="card-header">
                 Medical Assistance History
             </div>
@@ -149,7 +162,7 @@
             return {
                 ifReady: false,
                 person: '',
-                medicalAssistance: []
+                medicalAssistance: null
             };
         },
 

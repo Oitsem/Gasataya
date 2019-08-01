@@ -25,7 +25,7 @@ class MedicalAssistance extends Model
         'user_id', 'person_id', 'file', 'amount', 'hospital_bills', 'medicines', 'consultation',
         'medical_supplies', 'minor_procedures', 'laboratory', 'laboratory_test',
         'blood_processing', 'biopsy', 'laboratory_others', 'radiology', 'xray', 'ct_scan',
-        'utz', 'echo', 'mri', 'radiology_others', 'radiology_others_detail'
+        'utz', 'echo', 'mri', 'radiology_others', 'radiology_others_details'
     ];
 
     /**

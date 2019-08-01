@@ -22,8 +22,11 @@ class CreatePersonsTable extends Migration
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
+            $table->string('extension_name')->nullable();
             $table->text('address');
             $table->date('birthdate');
+            $table->string('place_of_birth');
+            $table->boolean('sex');
             $table->string('email')->unique();
             $table->string('phone_number')->nullable();
             $table->string('telephone_number')->nullable();

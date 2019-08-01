@@ -22,6 +22,33 @@
     export default {
         data() {
             return {}
+        },
+
+        mounted() {
+            Echo.connector.socket.on('connect', (reason) => {
+                console.log('connected');
+            });
+
+            Echo.connector.socket.on('disconnect', (reason) => {
+                alert('No Internet Connection');
+            });
+
+            Echo.connector.socket.on('reconnect', (reason) => {
+                alert('Reconnected');
+            });
+
+            Echo.channel('test-channel').listen('TestEvent', (event) => {
+                console.log(event);
+            });
+
+            setInterval(() => {
+                console.log('fire');
+                axios.get('/api').then(res => {
+                }).catch(err => {
+                    this.ifReady = true;
+                    console.log(err);
+                });
+            }, 10000);
         }
     }
 </script>

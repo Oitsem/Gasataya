@@ -135,11 +135,13 @@ trait Filtering
             $string = str_replace($matchPair[0], '_' . lcfirst($matchPair[0]), $string);
         }
 
-        if (preg_match('/\_/', $string, $matches)) {
+        return $string;
+
+        /*if (preg_match('/\_/', $string, $matches)) {
             return preg_replace('/_/', '', $string, 1);
         } else {
             return $string;
-        }
+        }*/
     }
 
     /**

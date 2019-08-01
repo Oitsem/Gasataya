@@ -98,7 +98,7 @@ class MedicalAssistanceController extends Controller
     
         return response()->json([
             'message' => 'Resource successfully retrieve',
-            'medicalAssistance' => $medicalAssistance
+            'medical_assistance' => $medicalAssistance
         ], 200);
     }
     
@@ -220,7 +220,7 @@ class MedicalAssistanceController extends Controller
         $page->drawText(request()->amount, 59, 287);
 
         $page->setFont($font, 10);
-        $page->drawText(request()->amount_in_words, 190, 287);
+        $page->drawText(request()->amount_in_words, 193, 287);
 
         $page->setFont($font, 13);
 
