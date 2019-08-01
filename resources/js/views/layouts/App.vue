@@ -41,14 +41,14 @@
                 console.log(event);
             });
 
-            setInterval(() => {
+            /*setInterval(() => {
                 console.log('fire');
                 axios.get('/api').then(res => {
                 }).catch(err => {
                     this.ifReady = true;
                     console.log(err);
                 });
-            }, 10000);
+            }, 5000);*/
         }
     }
 </script>

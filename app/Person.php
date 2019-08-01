@@ -22,8 +22,11 @@ class Person extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'first_name', 'middle_name', 'last_name', 'address',
-        'birthdate', 'email', 'phone_number', 'telephone_number'
+        'user_id', 'first_name', 'middle_name', 'last_name',
+        'extension_name', 'address', 'birthdate', 'place_of_birth',
+        'civil_status', 'citizenship', 'number_of_siblings', 'sex',
+        'email', 'mobile_number', 'telephone_number',
+        'occupation', 'zip_code', 'district'
     ];
 
     /**

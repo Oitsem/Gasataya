@@ -54,3 +54,4 @@ window.Echo = new Echo({
 
 // Plugins
 window.amountConverter = require('./plugins/amount-to-words');
+window.moment = require('moment');

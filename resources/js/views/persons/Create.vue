@@ -10,22 +10,28 @@
                 <div v-if="ifReady">
                     <form v-on:submit.prevent="createNewPerson()">
                         <div class="row">
-                            <div class="col">
+                            <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label for="name">First Name</label>
                                     <input type="text" class="form-control" v-model="first_name" autocomplete="off" minlength="2" maxlength="255" required>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Middle Name</label>
                                     <input type="text" class="form-control" v-model="middle_name" autocomplete="off" minlength="2" maxlength="255" required>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Last Name</label>
                                     <input type="text" class="form-control" v-model="last_name" autocomplete="off" minlength="2" maxlength="255" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">Extension Name</label>
+                                    <input type="text" class="form-control" v-model="extension_name" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
 
@@ -40,33 +46,103 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col">
+                            <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
                                     <label>Birthdate</label>
                                     <input type="date" class="form-control" v-model="birthdate" autocomplete="off" required>
                                 </div>
                             </div>
-                            <div class="col"></div>
-                            <div class="col"></div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="form-group">
+                                    <label>Place of Birth</label>
+                                    <input type="text" class="form-control" v-model="place_of_birth" autocomplete="off" required>
+                                </div>
+                            </div>
 
                             <div class="w-100"></div>
 
-                            <div class="col">
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label>Civil Status</label>
+                                    <select class="form-control" v-model="civil_status">
+                                        <option value="1">Single</option>
+                                        <option value="2">Married</option>
+                                        <option value="3">Annulled</option>
+                                        <option value="4">Widowed</option>
+                                        <option value="5">Separated</option>
+                                        <option value="6">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label>Citizenship</label>
+                                    <input type="text" class="form-control" v-model="citizenship" autocomplete="off" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label>Number of Siblings</label>
+                                    <input type="text" class="form-control" v-model="number_of_siblings" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <label>Sex</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="sex-male" class="custom-control-input" v-model="sex" value="1">
+                                            <label class="custom-control-label" for="sex-male">Male</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="sex-female" class="custom-control-input" v-model="sex" value="0">
+                                            <label class="custom-control-label" for="sex-female">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-100"></div>
+
+                            <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label>Email Address</label>
                                     <input type="email" class="form-control" v-model="email" autocomplete="off" minlength="2" maxlength="255" required>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
-                                    <label>Phone Number</label>
-                                    <input type="text" class="form-control" v-model="phone_number" autocomplete="off" maxlength="255">
+                                    <label>Mobile Number</label>
+                                    <input type="text" class="form-control" v-model="mobile_number" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label>Telephone Number</label>
                                     <input type="text" class="form-control" v-model="telephone_number" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+
+                            <div class="w-100"></div>
+
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+                                    <label>Occupation</label>
+                                    <input type="text" class="form-control" v-model="occupation" autocomplete="off" minlength="2" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+                                    <label>Zip Code</label>
+                                    <input type="text" class="form-control" v-model="zip_code" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+                                    <label>District</label>
+                                    <input type="text" class="form-control" v-model="district" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
                         </div>
@@ -102,11 +178,20 @@
                 first_name: '',
                 middle_name: '',
                 last_name: '',
+                extension_name: '',
                 address: '',
                 birthdate: '',
+                place_of_birth: '',
+                civil_status: 1,
+                citizenship: 'Filipino',
+                number_of_siblings: '',
+                sex: '',
                 email: '',
-                phone_number: '',
-                telephone_number: ''
+                mobile_number: '',
+                telephone_number: '',
+                occupation: '',
+                zip_code: '6100',
+                district: 'Lone'
             };
         },
 

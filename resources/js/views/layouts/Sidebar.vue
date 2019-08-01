@@ -26,6 +26,23 @@
                     </li>
                 </ul>
             </div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#ched-scholars" data-toggle="collapse" aria-expanded="false" aria-controls="ched-scholars">
+                    CHED Scholars <i class="float-right fas fa-caret-down"></i>
+                </a>
+            </li>
+            <div class="collapse" id="ched-scholars">
+                <ul class="nav flex-column nav-sub-menu">
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name: 'ched-scholars.create' }">Create New Ched Scholar</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name: 'ched-scholars.index' }">View Ched Scholars</router-link>
+                    </li>
+                </ul>
+            </div>
+
             <li class="nav-item">
                 <a class="nav-link" href="#medical-assistance" data-toggle="collapse" aria-expanded="false" aria-controls="medical-assistance">
                     Medical Assistance <i class="float-right fas fa-caret-down"></i>

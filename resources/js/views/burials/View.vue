@@ -55,7 +55,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name">Date And Time Of Burial</label>
-                                <input type="text" class="form-control" v-model="burial.date_and_time_of_burial">
+                                <input type="datetime-local" class="form-control" v-model="burial.date_and_time_of_burial">
                             </div>
                         </div>
                     </div>
@@ -111,6 +111,7 @@
             let promise = new Promise((resolve, reject) => {
                 axios.get('/api/burials/' + this.$route.params.id).then(res => {
                     this.burial = res.data.burial;
+                    this.burial.date_and_time_of_burial = moment(this.burial.date_and_time_of_burial).format('YYYY-MM-DDThh:mm');
 
                     resolve();
                 });

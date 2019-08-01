@@ -4,7 +4,7 @@
             <div class="card-header">
                 <router-link class="text-primary" :to="{ name: 'burials.index' }">Burials</router-link>
                 /
-                <span class="text-secondary">Edit Burials</span>
+                <span class="text-secondary">Edit Burial</span>
             </div>
             <div class="card-body">
                 <div v-if="ifReady">
@@ -55,7 +55,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Date and Time of Burial</label>
-                                    <input type="text" class="form-control" v-model="date_and_time_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
+                                    <input type="datetime-local" class="form-control" v-model="date_and_time_of_burial" autocomplete="off" required>
                                 </div>
                             </div>
                         </div>
@@ -82,6 +82,7 @@
             return {
                 ifReady: false,
                 person: '',
+                id: '',
                 requesters_name: '',
                 relation_to_the_deceased_person: '',
                 name_of_deceased_person: '',
@@ -94,14 +95,17 @@
         mounted() {
             let promise = new Promise((resolve, reject) => {
                 axios.get('/api/burials/' + this.$route.params.id).then(res => {
-                    this.requesters_name = res.data.burial.person.first_name + ' ' + res.data.burial.person.middle_name + ' ' + res.data.burial.person.last_name;
+                    this.requesters_name                 = res.data.burial.person.first_name + ' ' + res.data.burial.person.middle_name + ' ' + res.data.burial.person.last_name;
                     this.relation_to_the_deceased_person = res.data.burial.relation_to_the_deceased_person;
-                    this.name_of_deceased_person = res.data.burial.name_of_deceased_person;
-                    this.place_of_burial = res.data.burial.place_of_burial;
-                    this.place_of_wake = res.data.burial.place_of_wake;
-                    this.date_and_time_of_burial = res.data.burial.date_and_time_of_burial;
+                    this.name_of_deceased_person         = res.data.burial.name_of_deceased_person;
+                    this.place_of_burial                 = res.data.burial.place_of_burial;
+                    this.place_of_wake                   = res.data.burial.place_of_wake;
+                    this.date_and_time_of_burial         = moment(res.data.burial.date_and_time_of_burial).format('YYYY-MM-DDThh:mm');
 
                     resolve();
+                }).catch(err => {
+                    console.log(err);
+                    reject();
                 });
             });
 
@@ -114,21 +118,9 @@
             updateBurial() {
                 this.ifReady = false;
 
-                let formData = new FormData();
-
-                formData.append('_method', 'PATCH');
-                formData.append('person', this.person);
-                formData.append('requesters_name', this.requesters_name);
-                formData.append('relation_to_the_deceased_person', this.relation_to_the_deceased_person);
-                formData.append('name_of_deceased_person', this.name_of_deceased_person);
-                formData.append('place_of_wake', this.place_of_wake);
-                formData.append('date_of_burial', this.date_of_burial);
-                formData.append('time_of_burial', this.time_of_burial);
-                formData.append('place_of_burial', this.place_of_burial);
-
-                axios.post('/api/burials/' + this.$route.params.id, formData).then(res => {
+                axios.patch('/api/burials/' + this.$route.params.id, this.$data).then(res => {
                     this.$router.push({
-                        name: 'burials.index',
+                        name: 'burials.view',
                         params: { id: this.$route.params.id }
                     });
                 }).catch(err => {

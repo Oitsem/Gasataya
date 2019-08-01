@@ -6,6 +6,15 @@ Vue.use(Router);
 const Home = () => import('./views/Home');
 
 /**
+ * CHED Scholars
+ *
+ */
+const ChedScholarsIndex = () => import('./views/ched_scholars/Index');
+const ChedScholarsCreate = () => import('./views/ched_scholars/Create');
+const ChedScholarsView = () => import('./views/ched_scholars/View');
+const ChedScholarsEdit = () => import('./views/ched_scholars/Edit');
+
+/**
  * Medical Assistance
  *
  */
@@ -54,6 +63,12 @@ const router = new Router({
   routes: [
     // Home
     { path: '/', name: 'home', component: Home },
+
+    // Ched Scholars
+    { path: '/ched-scholars', name: 'ched-scholars.index', component: ChedScholarsIndex },
+    { path: '/ched-scholars/create', name: 'ched-scholars.create', component: ChedScholarsCreate },
+    { path: '/ched-scholars/:id', name: 'ched-scholars.view', component: ChedScholarsView },
+    { path: '/ched-scholars/:id/edit', name: 'ched-scholars.edit', component: ChedScholarsEdit },
 
     // Medical Assistance
     { path: '/medical-assistance', name: 'medical-assistance.index', component: MedicalAssistanceIndex },

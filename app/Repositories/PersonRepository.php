@@ -7,6 +7,20 @@ use App\Person;
 class PersonRepository extends Repository
 {
     /**
+     * Civil status options.
+     *
+     * @var array
+     */
+    protected $civilStatusOptions = [
+        1 => 'Single',
+        2 => 'Married',
+        3 => 'Annulled',
+        4 => 'Widowed',
+        5 => 'Separated',
+        6 => 'Others'
+    ];
+
+    /**
      * Create new instance of person repository.
      *
      * @param Person $person Person model
@@ -30,6 +44,7 @@ class PersonRepository extends Repository
             return $this->person->where('first_name', 'LIKE', '%' . $key .'%')
                                 ->orWhere('middle_name', 'LIKE', '%' . $key .'%')
                                 ->orWhere('last_name', 'LIKE', '%' . $key .'%')
+                                ->orderBy('created_at', 'desc')
                                 ->limit(15)
                                 ->get();
         }

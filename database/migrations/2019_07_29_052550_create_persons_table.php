@@ -26,10 +26,16 @@ class CreatePersonsTable extends Migration
             $table->text('address');
             $table->date('birthdate');
             $table->string('place_of_birth');
+            $table->tinyInteger('civil_status');
+            $table->string('citizenship')->default('Filipino');
+            $table->tinyInteger('number_of_siblings')->unsigned()->nullable();
             $table->boolean('sex');
-            $table->string('email')->unique();
-            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable()->unique();
+            $table->string('mobile_number')->nullable();
             $table->string('telephone_number')->nullable();
+            $table->string('occupation')->nullable();
+            $table->string('zip_code')->default('6100');
+            $table->string('district')->default('Lone');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -3,14 +3,14 @@
         <div class="card">
             <div class="card-header clearfix">
                 <div class="float-left">
-                    <router-link class="text-primary" :to="{ name: 'burials.index' }">Burials</router-link>
+                    <router-link class="text-primary" :to="{ name: 'persons.index' }">Persons</router-link>
                     /
-                    <span class="text-secondary">View Burials</span>
+                    <span class="text-secondary">View Persons</span>
                 </div>
                 <div class="float-right">
-                    <router-link class="btn btn-success btn-sm" :to="{ name: 'burials.create' }">
+                    <router-link class="btn btn-success btn-sm" :to="{ name: 'persons.create' }">
                         <i class="fas fa-plus"></i>&nbsp;
-                        <strong>Create New Burial</strong>
+                        <strong>Create New Person</strong>
                     </router-link>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                     <caption>
                         <div class="row">
                             <div class="col-md-9">
-                                List of Burial - <strong>Total Items {{ this.meta.total }}</strong>
+                                List of Persons - <strong>Total Items {{ this.meta.total }}</strong>
                             </div>
                             <div class="col-md-3">
                                 <div class="progress" height="30px;" v-if="showProgress">
@@ -30,30 +30,24 @@
                     </caption>
                     <thead>
                         <tr>
-                            <th scope="col">Requesters Name</th>
-                            <th scope="col">Name Of Deceased Person</th>
-                            <th scope="col">Relation To The Deceased Person</th>
-                            <th scope="col">Place Of Wake</th>
-                            <th scope="col">Place Of Burial</th>
-                            <th scope="col">Date and Time Of Burial</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Middle Name</th>
+                            <th scope="col">Last Name</th>
                             <th scope="col">Options</th>
                         </tr>
                     </thead>
-                    <tbody v-if="burials">
-                        <tr v-for="burial in burials">
-                            <td>{{ burial.person.first_name }} {{ burial.person.middle_name }} {{ burial.person.last_name }}</td>
-                            <td>{{ burial.name_of_deceased_person }}</td>
-                            <td>{{ burial.relation_to_the_deceased_person }}</td>
-                            <td>{{ burial.place_of_wake }}</td>
-                            <td>{{ burial.place_of_burial }}</td>
-                            <td>{{ burial.date_and_time_of_burial | DateFormat }}</td>
+                    <tbody v-if="persons">
+                        <tr v-for="person in persons">
+                            <td>{{ person.first_name }}</td>
+                            <td>{{ person.middle_name }}</td>
+                            <td>{{ person.last_name }}</td>
                             <td>
-                                <router-link class="text-secondary" :to="{ name: 'burials.view', params: { id: burial.id } }">
+                                <router-link class="text-secondary" :to="{ name: 'persons.view', params: { id: person.id } }">
                                     <i class="fas fa-eye"></i>
                                     <strong>View</strong>
                                 </router-link>
                                 &nbsp; | &nbsp;
-                                <router-link class="text-secondary" :to="{ name: 'burials.edit', params: { id: burial.id }}">
+                                <router-link class="text-secondary" :to="{ name: 'persons.edit', params: { id: person.id }}">
                                     <i class="fas fa-edit"></i>
                                     <strong>Edit</strong>
                                 </router-link>
@@ -113,8 +107,8 @@
             <div class="float-right">
                 <form class="form-inline">
                     <button type="button" class="btn btn-primary mr-2" @click.prevent.default="openSearchModal()">
-                        <i class="fas fa-search"></i>
-                        Search Burials
+                        <i class="fas fa-search"></i>&nbsp;
+                        <strong>Search Persons</strong>
                     </button>
                     <label class="sr-only" for="Number of Items">Number of Items</label>
                     <div class="input-group">
@@ -131,11 +125,11 @@
                 </form>
             </div>
 
-            <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="filterBurials" aria-hidden="true">
+            <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="filterPersons" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Search Burials</h5>
+                            <h5 class="modal-title">Search Persons</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -144,14 +138,20 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="name">Requesters Name</label>
-                                        <input type="text" class="form-control" v-model="requesters_name" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <label for="name">First Name</label>
+                                        <input type="text" class="form-control" v-model="first_name" autocomplete="off" maxlength="255">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="name">Relation To The Deceased Person</label>
-                                        <input type="text" class="form-control" v-model="relation_to_the_deceased_person" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <label for="name">Middle Name</label>
+                                        <input type="text" class="form-control" v-model="middle_name" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="name">Last Name</label>
+                                        <input type="text" class="form-control" v-model="last_name" autocomplete="off" maxlength="255">
                                     </div>
                                 </div>
 
@@ -159,32 +159,40 @@
 
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="name">Name Of Deceased Person</label>
-                                        <input type="text" class="form-control" v-model="name_of_deceased_person" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <label for="name">Address</label>
+                                        <textarea class="form-control" v-model="address" maxlength="1000"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="w-100"></div>
+
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Birthdate</label>
+                                        <input type="date" class="form-control" v-model="birthdate" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col"></div>
+                                <div class="col"></div>
+
+                                <div class="w-100"></div>
+
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Email Address</label>
+                                        <input type="email" class="form-control" v-model="email" autocomplete="off" maxlength="255">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="name">Place Of Wake</label>
-                                        <input type="text" class="form-control" v-model="place_of_wake" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <label>Phone Number</label>
+                                        <input type="text" class="form-control" v-model="phone_number" autocomplete="off" maxlength="255">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="name">Date of Burial</label>
-                                        <input type="text" class="form-control" v-model="date_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="name">Time Of Burial</label>
-                                        <input type="text" class="form-control" v-model="time_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="name">Place Of Burial</label>
-                                        <input type="text" class="form-control" v-model="place_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <label>Telephone Number</label>
+                                        <input type="text" class="form-control" v-model="telephone_number" autocomplete="off" maxlength="255">
                                     </div>
                                 </div>
                             </div>
@@ -210,10 +218,34 @@
 </template>
 
 <script>
-    const getBurials = (page, per_page, searchColumnRequestersName, searchColumnRelationToTheDeceasedPerson, searchColumnNameOfDeceasedPerson, searchColumnPlaceOfWake, searchColumnDateOfBurial, searchColumnTimeOfBurial, searchColumnPlaceOfBurial, order_by, callback) => {
-        const params = { page, per_page, searchColumnRequestersName, searchColumnRelationToTheDeceasedPerson, searchColumnNameOfDeceasedPerson, searchColumnPlaceOfWake, searchColumnDateOfBurial, searchColumnTimeOfBurial, searchColumnPlaceOfBurial, order_by };
+    const getPersons = (
+        page, per_page,
+        first_name,
+        middle_name,
+        last_name,
+        address,
+        birthdate,
+        email,
+        phone_number,
+        telephone_number,
+        order_by,
+        callback
+    ) => {
+        const params = {
+            page,
+            per_page,
+            first_name,
+            middle_name,
+            last_name,
+            address,
+            birthdate,
+            email,
+            phone_number,
+            telephone_number,
+            order_by
+        };
 
-        axios.get('/api/burials', { params }).then(res => {
+        axios.get('/api/persons', { params }).then(res => {
             callback(null, res.data);
         }).catch(error => {
             if (error.response.status == 401) {
@@ -229,14 +261,15 @@
     export default {
         data() {
             return {
-                burials: null,
-                requesters_name: '',
-                relation_to_the_deceased_person: '',
-                name_of_deceased_person: '',
-                place_of_wake: '',
-                date_of_burial: '',
-                time_of_burial: '',
-                place_of_burial: '',
+                persons: null,
+                first_name: '',
+                middle_name: '',
+                last_name: '',
+                address: '',
+                birthdate: '',
+                email: '',
+                phone_number: '',
+                telephone_number: '',
                 order_by: 'desc',
                 meta: {
                     current_page: null,
@@ -261,35 +294,60 @@
 
         beforeRouteEnter (to, from, next) {
             if (to.query.per_page == null) {
-                getBurials(to.query.page, 10, to.query.searchColumnRequestersName, to.query.searchColumnRelationToTheDeceasedPerson,
-                    to.query.searchColumnNameOfDeceasedPerson, to.query.searchColumnPlaceOfWake, to.query.searchColumnDateOfBurial,
-                    to.query.searchColumnTimeOfBurial, to.query.searchColumnPlaceOfBurial, to.query.order_by, (err, data) => {
+                getPersons(
+                    to.query.page,
+                    10,
+                    to.query.first_name,
+                    to.query.middle_name,
+                    to.query.last_name,
+                    to.query.address,
+                    to.query.birthdate,
+                    to.query.email,
+                    to.query.phone_number,
+                    to.query.telephone_number,
+                    to.query.order_by,
+                    (err, data) => {
                         next(vm => vm.setData(err, data));
-                    });
+                    }
+                );
             } else {
-                getBurials(to.query.page, to.query.per_page, to.query.searchColumnRequestersName, to.query.searchColumnRelationToTheDeceasedPerson,
-                    to.query.searchColumnNameOfDeceasedPerson, to.query.searchColumnPlaceOfWake, to.query.searchColumnDateOfBurial,
-                    to.query.searchColumnTimeOfBurial, to.query.searchColumnPlaceOfBurial, to.query.order_by, (err, data) => {
+                getPersons(
+                    to.query.page,
+                    to.query.per_page,
+                    to.query.first_name,
+                    to.query.middle_name,
+                    to.query.last_name,
+                    to.query.address,
+                    to.query.birthdate,
+                    to.query.email,
+                    to.query.phone_number,
+                    to.query.telephone_number,
+                    to.query.order_by,
+                    (err, data) => {
                         next(vm => vm.setData(err, data));
-                    });
+                    }
+                );
             }
         },
 
         beforeRouteUpdate (to, from, next) {
-            getBurials(to.query.page, this.meta.per_page, this.searchColumnRequestersName, this.searchColumnRelationToTheDeceasedPerson,
-                this.searchColumnNameOfDeceasedPerson, this.searchColumnPlaceOfWake, this.searchColumnDateOfBurial, this.searchColumnTimeOfBurial,
-                this.searchColumnPlaceOfBurial, this.order_by, (err, data) => {
+            getPersons(
+                to.query.page,
+                this.meta.per_page,
+                this.first_name,
+                this.middle_name,
+                this.last_name,
+                this.address,
+                this.birthdate,
+                this.email,
+                this.phone_number,
+                this.telephone_number,
+                this.order_by,
+                (err, data) => {
                     this.setData(err, data);
                     next();
-                });
-        },
-
-        filters: {
-            DateFormat: function (value) {
-                if (value) {
-                    return moment(value).format('MMMM DD YYYY h:mm A');
                 }
-            }
+            );
         },
 
         computed: {
@@ -335,17 +393,18 @@
             goToFirstPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burials.index',
+                    name: 'persons.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        requesters_name: this.requesters_name,
-                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                        name_of_deceased_person: this.name_of_deceased_person,
-                        place_of_wake: this.place_of_wake,
-                        date_of_burial: this.date_of_burial,
-                        time_of_burial: this.time_of_burial,
-                        place_of_burial: this.place_of_burial,
+                        first_name: this.first_name,
+                        middle_name: this.middle_name,
+                        last_name: this.last_name,
+                        address: this.address,
+                        birthdate: this.birthdate,
+                        email: this.email,
+                        phone_number: this.phone_number,
+                        telephone_number: this.telephone_number,
                         order_by: this.order_by
                     },
                 });
@@ -353,17 +412,18 @@
             goToPage(page = null) {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burials.index',
+                    name: 'persons.index',
                     query: {
                         page,
                         per_page: this.meta.per_page,
-                        requesters_name: this.requesters_name,
-                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                        name_of_deceased_person: this.name_of_deceased_person,
-                        place_of_wake: this.place_of_wake,
-                        date_of_burial: this.date_of_burial,
-                        time_of_burial: this.time_of_burial,
-                        place_of_burial: this.place_of_burial,
+                        first_name: this.first_name,
+                        middle_name: this.middle_name,
+                        last_name: this.last_name,
+                        address: this.address,
+                        birthdate: this.birthdate,
+                        email: this.email,
+                        phone_number: this.phone_number,
+                        telephone_number: this.telephone_number,
                         order_by: this.order_by
                     },
                 });
@@ -371,17 +431,18 @@
             goToLastPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burial.index',
+                    name: 'persons.index',
                     query: {
                         page: this.meta.last_page,
                         per_page: this.meta.per_page,
-                        requesters_name: this.requesters_name,
-                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                        name_of_deceased_person: this.name_of_deceased_person,
-                        place_of_wake: this.place_of_wake,
-                        date_of_burial: this.date_of_burial,
-                        time_of_burial: this.time_of_burial,
-                        place_of_burial: this.place_of_burial,
+                        first_name: this.first_name,
+                        middle_name: this.middle_name,
+                        last_name: this.last_name,
+                        address: this.address,
+                        birthdate: this.birthdate,
+                        email: this.email,
+                        phone_number: this.phone_number,
+                        telephone_number: this.telephone_number,
                         order_by: this.order_by
                     }
                 });
@@ -389,17 +450,18 @@
             goToNextPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burials.index',
+                    name: 'persons.index',
                     query: {
                         page: this.nextPage,
                         per_page: this.meta.per_page,
-                        requesters_name: this.requesters_name,
-                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                        name_of_deceased_person: this.name_of_deceased_person,
-                        place_of_wake: this.place_of_wake,
-                        date_of_burial: this.date_of_burial,
-                        time_of_burial: this.time_of_burial,
-                        place_of_burial: this.place_of_burial,
+                        first_name: this.first_name,
+                        middle_name: this.middle_name,
+                        last_name: this.last_name,
+                        address: this.address,
+                        birthdate: this.birthdate,
+                        email: this.email,
+                        phone_number: this.phone_number,
+                        telephone_number: this.telephone_number,
                         order_by: this.order_by
                     }
                 });
@@ -407,28 +469,29 @@
             goToPreviousPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burials.index',
+                    name: 'persons.index',
                     query: {
                         page: this.prevPage,
                         per_page: this.meta.per_page,
-                        requesters_name: this.requesters_name,
-                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                        name_of_deceased_person: this.name_of_deceased_person,
-                        place_of_wake: this.place_of_wake,
-                        date_of_burial: this.date_of_burial,
-                        time_of_burial: this.time_of_burial,
-                        place_of_burial: this.place_of_burial,
+                        first_name: this.first_name,
+                        middle_name: this.middle_name,
+                        last_name: this.last_name,
+                        address: this.address,
+                        birthdate: this.birthdate,
+                        email: this.email,
+                        phone_number: this.phone_number,
+                        telephone_number: this.telephone_number,
                         order_by: this.order_by
                     }
                 });
             },
-            setData(err, { data: burials, links, meta }) {
+            setData(err, { data: persons, links, meta }) {
                 this.pageNumbers = [];
 
                 if (err) {
                     this.error = err.toString();
                 } else {
-                    this.burials = burials;
+                    this.persons = persons;
                     this.links = links;
                     this.meta = meta;
                 }
@@ -489,47 +552,52 @@
             changePerPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burials.index',
+                    name: 'persons.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        requesters_name: this.requesters_name,
-                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                        name_of_deceased_person: this.name_of_deceased_person,
-                        place_of_wake: this.place_of_wake,
-                        date_of_burial: this.date_of_burial,
-                        time_of_burial: this.time_of_burial,
-                        place_of_burial: this.place_of_burial,
+                        first_name: this.first_name,
+                        middle_name: this.middle_name,
+                        last_name: this.last_name,
+                        address: this.address,
+                        birthdate: this.birthdate,
+                        email: this.email,
+                        phone_number: this.phone_number,
+                        telephone_number: this.telephone_number,
                         order_by: this.order_by
                     }
                 });
             },
             search() {
                 $('#searchModal').modal('hide');
+
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burials.index',
+                    name: 'persons.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        requesters_name: this.requesters_name,
-                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                        name_of_deceased_person: this.name_of_deceased_person,
-                        place_of_wake: this.place_of_wake,
-                        date_of_burial: this.date_of_burial,
-                        time_of_burial: this.time_of_burial,
-                        place_of_burial: this.place_of_burial,
+                        first_name: this.first_name,
+                        middle_name: this.middle_name,
+                        last_name: this.last_name,
+                        address: this.address,
+                        birthdate: this.birthdate,
+                        email: this.email,
+                        phone_number: this.phone_number,
+                        telephone_number: this.telephone_number,
                         order_by: this.order_by
                     }
                 });
             },
             clear() {
-                this.requesters_name = '';
-                this.relation_to_the_deceased_person = '';
-                this.name_of_deceased_person = '';
-                this.place_of_wake = '';
-                this.date_of_burial = '';
-                this.time_of_burial = '';
+                this.first_name = '';
+                this.middle_name = '';
+                this.last_name = '';
+                this.address = '';
+                this.birthdate = '';
+                this.email = '';
+                this.phone_number ='';
+                this.telephone_number ='';
                 this.order_by = 'desc';
             },
             openSearchModal() {

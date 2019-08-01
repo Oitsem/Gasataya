@@ -61,7 +61,24 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col-lg-3 col-md-12">
+                            <div class="col-lg-4 col-md-12">
+                                <label>Sex</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="sex-female" class="custom-control-input" v-model="sex" value="0">
+                                            <label class="custom-control-label" for="sex-female">Female</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="sex-male" class="custom-control-input" v-model="sex" value="1">
+                                            <label class="custom-control-label" for="sex-male">Male</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label>Civil Status</label>
                                     <select class="form-control" v-model="civil_status">
@@ -74,33 +91,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-12">
+                            <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label>Citizenship</label>
                                     <input type="text" class="form-control" v-model="citizenship" autocomplete="off" required>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-12">
-                                <div class="form-group">
-                                    <label>Number of Siblings</label>
-                                    <input type="text" class="form-control" v-model="number_of_siblings" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-12">
-                                <label>Sex</label>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="sex-male" class="custom-control-input" v-model="sex" value="1">
-                                            <label class="custom-control-label" for="sex-male">Male</label>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="sex-female" class="custom-control-input" v-model="sex" value="0">
-                                            <label class="custom-control-label" for="sex-female">Female</label>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -181,10 +175,9 @@
                 address: '',
                 birthdate: '',
                 place_of_birth: '',
+                sex: 0,
                 civil_status: '',
                 citizenship: '',
-                number_of_siblings: '',
-                sex: '',
                 email: '',
                 mobile_number: '',
                 telephone_number: '',
@@ -197,23 +190,22 @@
         mounted() {
             let promise = new Promise((resolve, reject) => {
                 axios.get('/api/persons/' + this.$route.params.id).then(res => {
-                    this.first_name         = res.data.person.first_name;
-                    this.middle_name        = res.data.person.middle_name;
-                    this.last_name          = res.data.person.last_name;
-                    this.extension_name     = res.data.person.extension_name;
-                    this.address            = res.data.person.address;
-                    this.birthdate          = res.data.person.birthdate;
-                    this.place_of_birth     = res.data.person.place_of_birth;
-                    this.civil_status       = res.data.person.civil_status;
-                    this.citizenship        = res.data.person.citizenship;
-                    this.number_of_siblings = res.data.person.number_of_siblings;
-                    this.sex                = res.data.person.sex;
-                    this.email              = res.data.person.email;
-                    this.mobile_number      = res.data.person.mobile_number;
-                    this.telephone_number   = res.data.person.telephone_number;
-                    this.occupation         = res.data.person.occupation;
-                    this.zip_code           = res.data.person.zip_code;
-                    this.district           = res.data.person.district;
+                    this.first_name       = res.data.person.first_name;
+                    this.middle_name      = res.data.person.middle_name;
+                    this.last_name        = res.data.person.last_name;
+                    this.extension_name   = res.data.person.extension_name;
+                    this.address          = res.data.person.address;
+                    this.birthdate        = res.data.person.birthdate;
+                    this.place_of_birth   = res.data.person.place_of_birth;
+                    this.sex              = res.data.person.sex;
+                    this.civil_status     = res.data.person.civil_status;
+                    this.citizenship      = res.data.person.citizenship;
+                    this.email            = res.data.person.email;
+                    this.mobile_number    = res.data.person.mobile_number;
+                    this.telephone_number = res.data.person.telephone_number;
+                    this.occupation       = res.data.person.occupation;
+                    this.zip_code         = res.data.person.zip_code;
+                    this.district         = res.data.person.district;
 
                     resolve();
                 });
@@ -228,7 +220,18 @@
             updatePerson() {
                 this.ifReady = false;
 
-                axios.patch('/api/persons/' + this.$route.params.id, this.$data).then(res => {
+                let formData = new FormData();
+
+                formData.append('_method', 'PATCH');
+                formData.append('first_name', this.first_name);
+                formData.append('middle_name', this.middle_name);
+                formData.append('last_name', this.last_name);
+                formData.append('birthdate', this.birthdate);
+                formData.append('email', this.email);
+                formData.append('phone_number', this.phone_number);
+                formData.append('telephone_number', this.telephone_number);
+
+                axios.post('/api/persons/' + this.$route.params.id, formData).then(res => {
                     this.$router.push({
                         name: 'persons.view',
                         params: { id: this.$route.params.id }

@@ -61,7 +61,24 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col-lg-3 col-md-12">
+                            <div class="col-lg-4 col-md-12">
+                                <label>Sex</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="sex-female" class="custom-control-input" v-model="person.sex" value="0">
+                                            <label class="custom-control-label" for="sex-female">Female</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="sex-male" class="custom-control-input" v-model="person.sex" value="1">
+                                            <label class="custom-control-label" for="sex-male">Male</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label>Civil Status</label>
                                     <select class="form-control" v-model="person.civil_status">
@@ -74,33 +91,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-12">
+                            <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label>Citizenship</label>
                                     <input type="text" class="form-control" v-model="person.citizenship" autocomplete="off" required>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-12">
-                                <div class="form-group">
-                                    <label>Number of Siblings</label>
-                                    <input type="text" class="form-control" v-model="person.number_of_siblings" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-12">
-                                <label>Sex</label>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="sex-male" class="custom-control-input" v-model="person.sex" value="1">
-                                            <label class="custom-control-label" for="sex-male">Male</label>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="sex-female" class="custom-control-input" v-model="person.sex" value="0">
-                                            <label class="custom-control-label" for="sex-female">Female</label>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
