@@ -5,16 +5,16 @@ namespace App;
 use App\Traits\Filtering;
 use Illuminate\Database\Eloquent\Model;
 
-class Person extends Model
+class Burial extends Model
 {
-    use Filtering;
+   use Filtering;
 
     /**
-     * Persons table.
+     * Burials table.
      *
      * @var string
      */
-    protected $table = 'persons';
+    protected $table = 'burials';
 
     /**
      * The attributes that are mass assignable.
@@ -22,8 +22,8 @@ class Person extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'first_name', 'middle_name', 'last_name', 'address',
-        'birthdate', 'email', 'phone_number', 'telephone_number'
+        'user_id', 'person_id', 'relation_to_the_deceased_person', 'name_of_deceased_person',
+        'place_of_wake', 'place_of_burial', 'date_and_time_of_burial'
     ];
 
     /**
@@ -44,22 +44,22 @@ class Person extends Model
     }
 
     /**
-     * The person belongs to a user.
+     * The medical records belongs to a person
+     *
+     * @return object
+     */
+    public function person()
+    {
+        return $this->belongsTo(Person::class);
+    }
+
+    /**
+     * The medical records belongs to a user.
      *
      * @return object
      */
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * The person has many medical assistance
-     *
-     * @return array object
-     */
-    public function medicalAssistance()
-    {
-        return $this->hasMany(MedicalAssistance::class);
     }
 }

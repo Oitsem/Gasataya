@@ -19,6 +19,16 @@ Route::group(['middleware' => ['auth:api']], function () {
         ]
     ]);
 
+    // Burials
+    Route::match(['put', 'patch'], '/burials/{burial}/restore', 'BurialsController@restore');
+    Route::delete('/burials/{burial}/force-delete', 'BurialsController@forceDestroy');
+    Route::get('/burials/search', 'BurialsController@search');
+    Route::resource('burials', 'BurialsController', [
+        'only' => [
+            'index', 'store', 'show', 'update', 'destroy'
+        ]
+    ]);
+
     // Users
     Route::match(['put', 'patch'], '/users/{user}/restore', 'UsersController@restore');
     Route::delete('/users/{user}/force-delete', 'UsersController@forceDestroy');

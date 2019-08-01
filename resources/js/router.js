@@ -7,7 +7,7 @@ const Home = () => import('./views/Home');
 
 /**
  * Medical Assistance
- * 
+ *
  */
 const MedicalAssistanceIndex = () => import('./views/medical_assistance/Index');
 const MedicalAssistanceCreate = () => import('./views/medical_assistance/Create');
@@ -16,7 +16,7 @@ const MedicalAssistanceEdit = () => import('./views/medical_assistance/Edit');
 
 /**
  * Users
- * 
+ *
  */
 const UsersIndex = () => import('./views/users/Index');
 const UsersCreate = () => import('./views/users/Create');
@@ -25,7 +25,7 @@ const UsersEdit = () => import('./views/users/Edit');
 
 /**
  * Persons
- * 
+ *
  */
 const PersonsIndex = () => import('./views/persons/Index');
 const PersonsCreate = () => import('./views/persons/Create');
@@ -34,11 +34,20 @@ const PersonsEdit = () => import('./views/persons/Edit');
 
 /**
  * Queues
- * 
+ *
  */
 const QueuesChed = () => import('./views/queues/Ched');
 const QueuesMedical = () => import('./views/queues/Medical');
 const QueuesSolicitation = () => import('./views/queues/Solicitation');
+
+/*
+ * Burials
+ *
+ */
+const BurialsIndex = () => import('./views/burials/Index');
+const BurialsCreate = () => import('./views/burials/Create');
+const BurialsView = () => import('./views/burials/View');
+const BurialsEdit = () => import('./views/burials/Edit');
 
 const router = new Router({
   mode: 'history',
@@ -67,7 +76,13 @@ const router = new Router({
     { path: '/users', name: 'users.index', component: UsersIndex },
     { path: '/users/create', name: 'users.create', component: UsersCreate },
     { path: '/users/:id', name: 'users.view', component: UsersView },
-    { path: '/users/:id/edit', name: 'users.edit', component: UsersEdit }
+    { path: '/users/:id/edit', name: 'users.edit', component: UsersEdit },
+
+    // Burials
+    { path: '/burials', name: 'burials.index', component: BurialsIndex },
+    { path: '/burials/create', name: 'burials.create', component: BurialsCreate },
+    { path: '/burials/:id', name: 'burials.view', component: BurialsView },
+    { path: '/burials/:id/edit', name: 'burials.edit', component: BurialsEdit }
   ]
 });
 
