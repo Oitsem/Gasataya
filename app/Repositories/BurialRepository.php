@@ -18,6 +18,34 @@ class BurialRepository extends Repository
     }
 
     /**
+     * Create pagination with filters for the resources.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string                    $orderBy
+     * @param  integer                   $length
+     * @param  boolean                   $removePage
+     * @return array json object
+     */
+    public function paginateWithFilters(
+        $request = null,
+        $orderBy = 'desc',
+        $length = 10,
+        $removePage = true
+    ) {
+        if ($orderBy == null) {
+            $orderBy = 'desc';
+        }
+
+        return $this->model->filter($request)
+                            ->orderBy('created_at', $orderBy)
+                            ->with('person')
+                            ->paginate($length)
+                            ->withPath(
+                                $this->model->createPaginationUrl($request, $removePage)
+                            );
+    }
+
+    /**
      * Find the resource using the specified id or else fail.
      *
      * @param  int $id

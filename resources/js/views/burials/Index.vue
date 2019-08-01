@@ -3,12 +3,12 @@
         <div class="card">
             <div class="card-header clearfix">
                 <div class="float-left">
-                    <router-link class="text-primary" :to="{ name: 'burial.index' }">Burials</router-link>
+                    <router-link class="text-primary" :to="{ name: 'burials.index' }">Burials</router-link>
                     /
                     <span class="text-secondary">View Burials</span>
                 </div>
                 <div class="float-right">
-                    <router-link class="btn btn-success btn-sm" :to="{ name: 'burial.create' }"><i class="fas fa-plus"></i>&nbsp; Create New Burial</router-link>
+                    <router-link class="btn btn-success btn-sm" :to="{ name: 'burials.create' }"><i class="fas fa-plus"></i>&nbsp; Create New Burial</router-link>
                 </div>
             </div>
             <div class="card-body">
@@ -31,26 +31,25 @@
                             <th scope="col">Relation To The Deceased Person</th>
                             <th scope="col">Name Of Deceased Person</th>
                             <th scope="col">Place Of Wake</th>
-                            <th scope="col">Date Of Burial</th>
-                            <th scope="col">Time Of Burial</th>
                             <th scope="col">Place Of Burial</th>
+                            <th scope="col">Date and Time Of Burial</th>
+                            <th scope="col">Options</th>
                         </tr>
                     </thead>
-                    <tbody v-if="persons">
+                    <tbody v-if="burials">
                         <tr v-for="burial in burials">
-                            <td>{{ burial.requesters_name }}</td>
-                            <td>{{ burial_relation_to_the_deceased_person }}</td>
+                            <td>{{ burial.person.first_name }} {{ burial.person.middle_name }} {{ burial.person.last_name }}</td>
+                            <td>{{ burial.relation_to_the_deceased_person }}</td>
                             <td>{{ burial.name_of_deceased_person }}</td>
                             <td>{{ burial.place_of_wake }}</td>
-                            <td>{{ burial.date_of_burial }}</td>
-                            <td>{{ burial.time_of_burial }}</td>
                             <td>{{ burial.place_of_burial }}</td>
+                            <td>{{ burial.date_and_time_of_burial }}</td>
                             <td>
-                                <router-link class="text-secondary" :to="{ name: 'burial.view', params: { id: burial.id } }">
+                                <router-link class="text-secondary" :to="{ name: 'burials.view', params: { id: burial.id } }">
                                     <i class="fas fa-envelope-open-text"></i> View
                                 </router-link>
                                 |
-                                <router-link class="text-secondary" :to="{ name: 'burial.edit', params: { id: burial.id }}">
+                                <router-link class="text-secondary" :to="{ name: 'burials.edit', params: { id: burial.id }}">
                                     <i class="fas fa-edit"></i> Edit
                                 </router-link>
                             </td>
@@ -255,16 +254,16 @@
         beforeRouteEnter (to, from, next) {
             if (to.query.per_page == null) {
                 getBurials(to.query.page, 10, to.query.searchColumnRequestersName, to.query.searchColumnRelationToTheDeceasedPerson,
-                to.query.searchColumnNameOfDeceasedPerson, to.query.searchColumnPlaceOfWake, to.query.searchColumnDateOfBurial,
-                to.query.searchColumnTimeOfBurial, to.query.searchColumnPlaceOfBurial, to.query.order_by, (err, data) => {
-                    next(vm => vm.setData(err, data));
-                });
+                    to.query.searchColumnNameOfDeceasedPerson, to.query.searchColumnPlaceOfWake, to.query.searchColumnDateOfBurial,
+                    to.query.searchColumnTimeOfBurial, to.query.searchColumnPlaceOfBurial, to.query.order_by, (err, data) => {
+                        next(vm => vm.setData(err, data));
+                    });
             } else {
                 getBurials(to.query.page, to.query.per_page, to.query.searchColumnRequestersName, to.query.searchColumnRelationToTheDeceasedPerson,
-                to.query.searchColumnNameOfDeceasedPerson, to.query.searchColumnPlaceOfWake, to.query.searchColumnDateOfBurial,
-                to.query.searchColumnTimeOfBurial, to.query.searchColumnPlaceOfBurial, to.query.order_by, (err, data) => {
-                    next(vm => vm.setData(err, data));
-                });
+                    to.query.searchColumnNameOfDeceasedPerson, to.query.searchColumnPlaceOfWake, to.query.searchColumnDateOfBurial,
+                    to.query.searchColumnTimeOfBurial, to.query.searchColumnPlaceOfBurial, to.query.order_by, (err, data) => {
+                        next(vm => vm.setData(err, data));
+                    });
             }
         },
 
@@ -272,9 +271,9 @@
             getBurials(to.query.page, this.meta.per_page, this.searchColumnRequestersName, this.searchColumnRelationToTheDeceasedPerson,
                 this.searchColumnNameOfDeceasedPerson, this.searchColumnPlaceOfWake, this.searchColumnDateOfBurial, this.searchColumnTimeOfBurial,
                 this.searchColumnPlaceOfBurial, this.order_by, (err, data) => {
-                this.setData(err, data);
-                next();
-            });
+                    this.setData(err, data);
+                    next();
+                });
         },
 
         computed: {
@@ -320,7 +319,7 @@
             goToFirstPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burial.index',
+                    name: 'burials.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
@@ -338,7 +337,7 @@
             goToPage(page = null) {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burial.index',
+                    name: 'burials.index',
                     query: {
                         page,
                         per_page: this.meta.per_page,
@@ -374,7 +373,7 @@
             goToNextPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burial.index',
+                    name: 'burials.index',
                     query: {
                         page: this.nextPage,
                         per_page: this.meta.per_page,
@@ -392,7 +391,7 @@
             goToPreviousPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'burial.index',
+                    name: 'burials.index',
                     query: {
                         page: this.prevPage,
                         per_page: this.meta.per_page,
@@ -407,13 +406,13 @@
                     }
                 });
             },
-            setData(err, { data: burial, links, meta }) {
+            setData(err, { data: burials, links, meta }) {
                 this.pageNumbers = [];
 
                 if (err) {
                     this.error = err.toString();
                 } else {
-                    this.burial = burial;
+                    this.burials = burials;
                     this.links = links;
                     this.meta = meta;
                 }

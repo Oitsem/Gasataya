@@ -2,59 +2,67 @@
     <div>
         <div class="card">
             <div class="card-header">
-                <router-link class="text-primary" :to="{ name: 'burial.index' }">Burials</router-link>
+                <router-link class="text-primary" :to="{ name: 'burials.index' }">Burials</router-link>
                 /
-                <span class="text-secondary">Edit Burial</span>
+                <span class="text-secondary">Edit Burials</span>
             </div>
             <div class="card-body">
                 <div v-if="ifReady">
                     <form v-on:submit.prevent="updateBurial()">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="name">Requesters Name</label>
-                                <input type="text" class="form-control" v-model="requesters_name" autocomplete="off" minlength="2" maxlength="255" required>
+                        <div class="row">
+                            <div class=col-md-6>
+                                <div class="form-group">
+                                    <label for="name">Requesters Name</label>
+                                    <input type="text" class="form-control" v-model="requesters_name" autocomplete="off" minlength="2" maxlength="255" required disabled>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="name">Relation To The Deceased Person</label>
-                                <input type="text" class="form-control" v-model="relation_to_the_deceased_person" autocomplete="off" minlength="2" maxlength="255" required>
-                            </div>
-                        </div>
 
-                        <div class="w-100"></div>
+                            <div class="w-100"></div>
 
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="name">Name Of Deceased Person</label>
-                                <input type="text" class="form-control" v-model="name_of_deceased_person" autocomplete="off" minlength="2" maxlength="255" required>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="name">Name Of Deceased Person</label>
+                                    <input type="text" class="form-control" v-model="name_of_deceased_person" autocomplete="off" minlength="2" maxlength="255" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="name">Place Of Wake</label>
-                                <input type="text" class="form-control" v-model="place_of_wake" autocomplete="off" minlength="2" maxlength="255" required>
-                            </div>
-                        </div>
 
-                        <div class="w-100"></div>
-
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="name">Date and Time of Burial</label>
-                                <input type="text" class="form-control" v-model="date_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Relation To The Deceased Person</label>
+                                    <input type="text" class="form-control" v-model="relation_to_the_deceased_person" autocomplete="off" minlength="2" maxlength="255" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="name">Place Of Burial</label>
-                                <input type="text" class="form-control" v-model="place_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
+
+                            <div class="w-100"></div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="name">Place Of Wake</label>
+                                    <input type="text" class="form-control" v-model="place_of_wake" autocomplete="off" minlength="2" maxlength="255" required>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="name">Place Of Burial</label>
+                                    <input type="text" class="form-control" v-model="place_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
+                                </div>
+                            </div>
+
+                            <div class="w-100"></div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Date and Time of Burial</label>
+                                    <input type="text" class="form-control" v-model="date_and_time_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
+                                </div>
                             </div>
                         </div>
 
                         <br>
 
-                        <router-link class="btn btn-outline-secondary btn-sm" :to="{ name: 'burial.index' }"><i class="fas fa-chevron-left"></i>&nbsp; Back</router-link>
+                        <router-link class="btn btn-outline-secondary btn-sm" :to="{ name: 'burials.index' }"><i class="fas fa-chevron-left"></i>&nbsp; Back</router-link>
                         <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-edit"></i>&nbsp; Update Burial</button>
                     </form>
                 </div>
@@ -73,26 +81,25 @@
         data() {
             return {
                 ifReady: false,
+                person: '',
                 requesters_name: '',
                 relation_to_the_deceased_person: '',
                 name_of_deceased_person: '',
+                place_of_burial: '',
                 place_of_wake: '',
-                date_of_burial: '',
-                time_of_burial: '',
-                place_of_burial: ''
+                date_and_time_of_burial: ''
             };
         },
 
         mounted() {
             let promise = new Promise((resolve, reject) => {
                 axios.get('/api/burials/' + this.$route.params.id).then(res => {
-                    this.requesters_name                      = res.data.burial.requesters_name;
-                    this.relation_to_the_deceased_person      = res.data.burial.relation_to_the_deceased_person;
-                    this.name_of_deceased_person              = res.data.burial.name_of_deceased_person;
-                    this.place_of_wake                        = res.data.burial.place_of_wake;
-                    this.date_of_burial                       = res.data.burial.date_of_burial;
-                    this.time_of_burial                       = res.data.burial.time_of_burial;
-                    this.place_of_burial                      = res.data.burial.place_of_burial;
+                    this.requesters_name = res.data.burial.person.first_name + ' ' + res.data.burial.person.middle_name + ' ' + res.data.burial.person.last_name;
+                    this.relation_to_the_deceased_person = res.data.burial.relation_to_the_deceased_person;
+                    this.name_of_deceased_person = res.data.burial.name_of_deceased_person;
+                    this.place_of_burial = res.data.burial.place_of_burial;
+                    this.place_of_wake = res.data.burial.place_of_wake;
+                    this.date_and_time_of_burial = res.data.burial.date_and_time_of_burial;
 
                     resolve();
                 });
@@ -110,6 +117,7 @@
                 let formData = new FormData();
 
                 formData.append('_method', 'PATCH');
+                formData.append('person', this.person);
                 formData.append('requesters_name', this.requesters_name);
                 formData.append('relation_to_the_deceased_person', this.relation_to_the_deceased_person);
                 formData.append('name_of_deceased_person', this.name_of_deceased_person);
@@ -120,7 +128,7 @@
 
                 axios.post('/api/burials/' + this.$route.params.id, formData).then(res => {
                     this.$router.push({
-                        name: 'burial.view',
+                        name: 'burials.index',
                         params: { id: this.$route.params.id }
                     });
                 }).catch(err => {
