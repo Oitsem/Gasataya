@@ -142,16 +142,10 @@
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">Requesters Name</label>
                                         <input type="text" class="form-control" v-model="requesters_name" autocomplete="off" minlength="2" maxlength="255" required>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="name">Relation To The Deceased Person</label>
-                                        <input type="text" class="form-control" v-model="relation_to_the_deceased_person" autocomplete="off" minlength="2" maxlength="255" required>
                                     </div>
                                 </div>
 
@@ -165,26 +159,32 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
+                                        <label for="name">Relation To The Deceased Person</label>
+                                        <input type="text" class="form-control" v-model="relation_to_the_deceased_person" autocomplete="off" minlength="2" maxlength="255" required>
+                                    </div>
+                                </div>
+
+                                <div class="w-100"></div>
+
+                                <div class="col">
+                                    <div class="form-group">
                                         <label for="name">Place Of Wake</label>
                                         <input type="text" class="form-control" v-model="place_of_wake" autocomplete="off" minlength="2" maxlength="255" required>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="name">Date of Burial</label>
-                                        <input type="text" class="form-control" v-model="date_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="name">Time Of Burial</label>
-                                        <input type="text" class="form-control" v-model="time_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
                                         <label for="name">Place Of Burial</label>
                                         <input type="text" class="form-control" v-model="place_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
+                                    </div>
+                                </div>
+
+                                <div class="w-100"></div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name">Date And Time Of Burial</label>
+                                        <input type="datetime-local" class="form-control" v-model="date_and_time_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
                                     </div>
                                 </div>
                             </div>
@@ -210,8 +210,8 @@
 </template>
 
 <script>
-    const getBurials = (page, per_page, searchColumnRequestersName, searchColumnRelationToTheDeceasedPerson, searchColumnNameOfDeceasedPerson, searchColumnPlaceOfWake, searchColumnDateOfBurial, searchColumnTimeOfBurial, searchColumnPlaceOfBurial, order_by, callback) => {
-        const params = { page, per_page, searchColumnRequestersName, searchColumnRelationToTheDeceasedPerson, searchColumnNameOfDeceasedPerson, searchColumnPlaceOfWake, searchColumnDateOfBurial, searchColumnTimeOfBurial, searchColumnPlaceOfBurial, order_by };
+    const getBurials = (page, per_page, RequestersName, RelationToTheDeceasedPerson, NameOfDeceasedPerson, PlaceOfWake, DateAndTimeOfBurial, PlaceOfBurial, order_by, callback) => {
+        const params = { page, per_page, RequestersName, RelationToTheDeceasedPerson, NameOfDeceasedPerson, PlaceOfWake, DateAndTimeOfBurial, PlaceOfBurial, order_by };
 
         axios.get('/api/burials', { params }).then(res => {
             callback(null, res.data);
@@ -234,9 +234,8 @@
                 relation_to_the_deceased_person: '',
                 name_of_deceased_person: '',
                 place_of_wake: '',
-                date_of_burial: '',
-                time_of_burial: '',
                 place_of_burial: '',
+                date_and_time_of_burial: '',
                 order_by: 'desc',
                 meta: {
                     current_page: null,
@@ -261,9 +260,9 @@
 
         beforeRouteEnter (to, from, next) {
             if (to.query.per_page == null) {
-                getBurials(to.query.page, 10, to.query.searchColumnRequestersName, to.query.searchColumnRelationToTheDeceasedPerson,
-                    to.query.searchColumnNameOfDeceasedPerson, to.query.searchColumnPlaceOfWake, to.query.searchColumnDateOfBurial,
-                    to.query.searchColumnTimeOfBurial, to.query.searchColumnPlaceOfBurial, to.query.order_by, (err, data) => {
+                getBurials(to.query.page, 10, to.query.searchColumnRequestersName, to.query.searchColumnNameOfDeceasedPerson,
+                    to.query.searchColumnRelationToTheDeceasedPerson, to.query.searchColumnPlaceOfWake, to.query.searchColumnDateAndTimeOfBurial,
+                    to.query.searchColumnPlaceOfBurial, to.query.order_by, (err, data) => {
                         next(vm => vm.setData(err, data));
                     });
             } else {
