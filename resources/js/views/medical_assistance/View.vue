@@ -244,7 +244,14 @@
                     this.medicalAssistance = res.data.medical_assistance;
                     this.medicalAssistance.file = '/storage/medical_records/' + this.medicalAssistance.file;
 
-                    this.medicalAssistance.amount_in_words = amountConverter.convert(this.medicalAssistance.amount).toString().toUpperCase() + ' PESOS ONLY';
+                    let amount = this.medicalAssistance.amount;
+                    
+                    if (amount.substr(amount.length - 3) == ".00") {
+                        amount = amount.replace(".00", "");
+                    }
+
+                    this.medicalAssistance.amount = amount;
+                    this.medicalAssistance.amount_in_words = amountConverter.convert(amount).toString().toUpperCase() + ' PESOS ONLY';
 
                     resolve();
                 }).catch(err => {

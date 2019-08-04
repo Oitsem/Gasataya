@@ -3,12 +3,15 @@
         <div class="card">
             <div class="card-header clearfix">
                 <div class="float-left">
-                    <router-link class="text-primary" :to="{ name: 'persons.index' }">Persons</router-link>
+                    <router-link class="text-primary" :to="{ name: 'medical-assistance.index' }">Medical Assistance</router-link>
                     /
-                    <span class="text-secondary">View Persons</span>
+                    <span class="text-secondary">View Medical Assistance</span>
                 </div>
                 <div class="float-right">
-                    <router-link class="btn btn-success btn-sm" :to="{ name: 'persons.create' }"><i class="fas fa-plus"></i>&nbsp; Create New Person</router-link>
+                    <router-link class="btn btn-success btn-sm" :to="{ name: 'medical-assistance.create' }">
+                        <i class="fas fa-plus"></i>&nbsp;
+                        <strong>Create New Medical Assistance</strong>
+                    </router-link>
                 </div>
             </div>
             <div class="card-body">
@@ -16,7 +19,7 @@
                     <caption>
                         <div class="row">
                             <div class="col-md-9">
-                                List of Persons - Total Items {{ this.meta.total }}
+                                List of Medical Assistance - <strong>Total Items {{ this.meta.total }}</strong>
                             </div>
                             <div class="col-md-3">
                                 <div class="progress" height="30px;" v-if="showProgress">
@@ -39,11 +42,11 @@
                             <td>{{ person.middle_name }}</td>
                             <td>{{ person.last_name }}</td>
                             <td>
-                                <router-link class="text-secondary" :to="{ name: 'persons.view', params: { id: person.id } }">
+                                <router-link class="text-secondary" :to="{ name: 'medical-assistance.view', params: { id: person.id } }">
                                     <i class="fas fa-envelope-open-text"></i> View
                                 </router-link>
                                 |
-                                <router-link class="text-secondary" :to="{ name: 'persons.edit', params: { id: person.id }}">
+                                <router-link class="text-secondary" :to="{ name: 'medical-assistance.edit', params: { id: person.id }}">
                                     <i class="fas fa-edit"></i> Edit
                                 </router-link>
                             </td>
@@ -348,7 +351,7 @@
             goToLastPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'persons.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: this.meta.last_page,
                         per_page: this.meta.per_page,
@@ -366,7 +369,7 @@
             goToNextPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'persons.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: this.nextPage,
                         per_page: this.meta.per_page,
@@ -384,7 +387,7 @@
             goToPreviousPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'persons.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: this.prevPage,
                         per_page: this.meta.per_page,
@@ -466,7 +469,7 @@
             changePerPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'persons.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
@@ -485,7 +488,7 @@
                 $('#searchModal').modal('hide');
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'persons.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,

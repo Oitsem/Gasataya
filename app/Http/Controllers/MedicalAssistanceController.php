@@ -214,7 +214,7 @@ class MedicalAssistanceController extends Controller
         $page->setFont($font, 10);
         $page->drawText(request()->person['address'], 85, 345);
         $page->setFont($font, 11);
-        $page->drawText(request()->person['phone_number'], 36, 317);
+        $page->drawText(request()->person['mobile_number'], 36, 317);
 
         $page->setFont($font, 15);
         $page->drawText(request()->amount, 59, 287);
