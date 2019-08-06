@@ -37,10 +37,29 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col">
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label>Barangays</label>
+                                    <vue-select v-model="barangay" @input="selectBarangay()" label="name" :options="barangays"></vue-select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Address</label>
-                                    <textarea class="form-control" v-model="address" maxlength="1000"></textarea>
+                                    <input type="text" class="form-control" v-model="street" autocomplete="off" maxlength="255" placeholder="Ex. Block 31 Lot 16 San Lucas Street">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">City</label>
+                                    <input type="text" class="form-control" v-model="city" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">Province</label>
+                                    <input type="text" class="form-control" v-model="province" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
 
@@ -174,12 +193,16 @@
     export default {
         data() {
             return {
-                ifReady: true,
+                ifReady: false,
+                barangays: [],
                 first_name: '',
                 middle_name: '',
                 last_name: '',
                 extension_name: '',
                 address: '',
+                barangay: '',
+                city: 'Bacolod City',
+                province: 'Negros Occidental',
                 birthdate: '',
                 place_of_birth: '',
                 civil_status: 1,
@@ -193,6 +216,21 @@
                 zip_code: '6100',
                 district: 'Lone'
             };
+        },
+
+        mounted() {
+            let promise = new Promise((resolve, reject) => {
+                axios.get('/api/persons/get-barangays').then(res => {
+                    this.barangays = res.data.barangays;
+                }).catch(err => {
+                    this.ifReady = true;
+                    console.log(err);
+                });
+            });
+
+            promise.then(() => {
+                this.ifReady = true;
+            });
         },
 
         methods: {

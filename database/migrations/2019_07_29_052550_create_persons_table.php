@@ -23,13 +23,13 @@ class CreatePersonsTable extends Migration
             $table->string('middle_name');
             $table->string('last_name');
             $table->string('extension_name')->nullable();
-            $table->text('address');
-            $table->date('birthdate');
-            $table->string('place_of_birth');
-            $table->tinyInteger('civil_status');
+            $table->text('address')->nullable();
+            $table->date('birthdate')->nullable();
+            $table->string('place_of_birth')->nullable();
+            $table->tinyInteger('civil_status')->nullable();
             $table->string('citizenship')->default('Filipino');
             $table->tinyInteger('number_of_siblings')->unsigned()->nullable();
-            $table->boolean('sex');
+            $table->boolean('sex')->nullable();
             $table->string('email')->nullable()->unique();
             $table->string('mobile_number')->nullable();
             $table->string('telephone_number')->nullable();

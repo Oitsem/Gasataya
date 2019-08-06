@@ -241,8 +241,9 @@
         mounted() {
             let promise = new Promise((resolve, reject) => {
                 axios.get('/api/persons/' + this.$route.params.id).then(res => {
-                    this.person = res.data.person;
+                    this.person            = res.data.person;
                     this.medicalAssistance = res.data.person.medical_assistance;
+                    
                     resolve();
                 });
             });

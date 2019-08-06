@@ -8,7 +8,7 @@
             </div>
             <div class="card-body">
                 <div v-if="ifReady">
-                    <form v-on:submit.prevent="createNewPerson()">
+                    <form v-on:submit.prevent="createNewCHEDScholar()">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -206,16 +206,16 @@
                                             <option value="6">Grade 6</option>
                                             <option value="7">Grade 7</option>
                                             <option value="8">First Year High School</option>
-                                            <option value="8">Second Year High School</option>
+                                            <option value="9">Second Year High School</option>
                                             <option value="10">Third Year High School</option>
-                                            <option value="10">Fourth Year High School</option>
-                                            <option value="11">Junior High</option>
-                                            <option value="12">Senior High</option>
-                                            <option value="13">First Year College</option>
-                                            <option value="14">Second Year College</option>
-                                            <option value="15">Third Year College</option>
-                                            <option value="16">Fourth Year College</option>
-                                            <option value="17">Fifth Year College</option>
+                                            <option value="12">Fourth Year High School</option>
+                                            <option value="12">Junior High</option>
+                                            <option value="13">Senior High</option>
+                                            <option value="14">First Year College</option>
+                                            <option value="15">Second Year College</option>
+                                            <option value="16">Third Year College</option>
+                                            <option value="17">Fourth Year College</option>
+                                            <option value="18">Fifth Year College</option>
                                         </select>
                                     </div>
                                 </div>
@@ -265,25 +265,25 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12">
-                                    <label>Type of School Sector <small class="text-danger">*Required</small></label>
+                                    <label>School Intended to Enroll Sector <small class="text-danger">*Required</small></label>
                                     <div class="row">
                                         <div class="col">
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="type_of_school_public" class="custom-control-input" v-model="type_of_school" @click="toggleTypeOfSchool(0)" value="0" required>
+                                                <input type="radio" id="type_of_school_public" class="custom-control-input" v-model="school_intended_to_enroll_sector" @click="toggleSchoolIntendedSector(0)" value="0" required>
                                                 <label class="custom-control-label" for="type_of_school_public">Public</label>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="type_of_school_private" class="custom-control-input" v-model="type_of_school" @click="toggleTypeOfSchool(1)" value="1" required>
+                                                <input type="radio" id="type_of_school_private" class="custom-control-input" v-model="school_intended_to_enroll_sector" @click="toggleSchoolIntendedSector(1)" value="1" required>
                                                 <label class="custom-control-label" for="type_of_school_private">Private</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </fieldset>                        
-
+                        </fieldset>
+                        
                         <br><hr><br>
 
                         <fieldset>
@@ -329,6 +329,12 @@
                                     <div class="form-group">
                                         <label for="name">Occupation</label>
                                         <input type="text" class="form-control" v-model="fathers_occupation" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="name">Contact Number</label>
+                                        <input type="text" class="form-control" v-model="fathers_contact_number" autocomplete="off" maxlength="15">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -394,6 +400,12 @@
                                     <div class="form-group">
                                         <label for="name">Occupation</label>
                                         <input type="text" class="form-control" v-model="mothers_occupation" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="name">Contact Number</label>
+                                        <input type="text" class="form-control" v-model="mothers_contact_number" autocomplete="off" maxlength="15">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -469,6 +481,12 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
+                                        <label for="name">Contact Number</label>
+                                        <input type="text" class="form-control" v-model="legal_contact_number" autocomplete="off" maxlength="15">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
                                         <label for="name">Annual Gross Income</label>
                                         <input type="text" class="form-control" v-model="legal_guardian_annual_gross_income" autocomplete="off" maxlength="255">
                                     </div>
@@ -539,12 +557,21 @@
                 occupation: '',
                 zip_code: '',
                 district: '',
+                school_last_attended: '',
+                school_last_attended_address: '',
+                highest_attained_grade: '',
+                school_last_attended_sector: '',
+                school_intended_to_enroll: '',
+                school_intended_to_enroll_address: '',
+                degree_program: '',
+                school_intended_to_enroll_sector: '',
                 fathers_first_name: '',
                 fathers_middle_name: '',
                 fathers_last_name: '',
                 fathers_extension_name: '',
                 fathers_address: '',
                 fathers_occupation: '',
+                fathers_contact_number: '',
                 fathers_annual_gross_income: '',
                 fathers_name_of_employer: '',
                 fathers_employer_address: '',
@@ -554,6 +581,7 @@
                 mothers_extension_name: '',
                 mothers_address: '',
                 mothers_occupation: '',
+                mothers_contact_number: '',
                 mothers_annual_gross_income: '',
                 mothers_name_of_employer: '',
                 mothers_employer_address: '',
@@ -563,17 +591,10 @@
                 legal_guardian_extension_name: '',
                 legal_guardian_address: '',
                 legal_guardian_occupation: '',
+                legal_contact_number: '',
                 legal_guardian_annual_gross_income: '',
                 legal_guardian_name_of_employer: '',
-                legal_guardian_employer_address: '',
-                school_last_attended: '',
-                school_last_attended_address: '',
-                highest_attained_grade: '',
-                school_last_attended_sector: '',
-                school_intended_to_enroll: '',
-                school_intended_to_enroll_address: '',
-                degree_program: '',
-                type_of_school: ''
+                legal_guardian_employer_address: ''
             };
         },
 
@@ -617,7 +638,7 @@
                     this.school_last_attended_sector = '';
                 }
             },
-            toggleTypeOfSchool(value) {
+            toggleSchoolIntendedSector(value) {
                 if (value == 0) {
                     this.type_of_school = '';
                 }
@@ -626,7 +647,7 @@
                     this.type_of_school = '';
                 }
             },
-            createNewPerson() {
+            createNewCHEDScholar() {
                 this.ifReady = false;
 
                 axios.post('/api/ched-scholars', this.$data).then(res => {

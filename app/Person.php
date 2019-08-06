@@ -30,6 +30,25 @@ class Person extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['full_name'];
+
+    /**
+     * Get the person's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        $fullName = $this->first_name . ' ' . substr($this->middle_name, 0, 1) . '. ' . $this->last_name . ' ' . $this->extension_name;
+
+        return trim($fullName);
+    }
+
+    /**
      * Run functions on boot.
      *
      */

@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\Traits\FilterOtherModels;
 use App\Traits\Filtering;
 use Illuminate\Database\Eloquent\Model;
 
 class MedicalAssistance extends Model
 {
-    use Filtering;
+    use Filtering, FilterOtherModels;
     
     /**
      * Medical assistance table.

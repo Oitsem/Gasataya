@@ -24,12 +24,23 @@ class CreateChedScholarsTable extends Migration
                 ->references('id')
                 ->on('persons');
             $table->string('file')->nullable();
+
+            $table->string('school_last_attended')->nullable();
+            $table->text('school_last_attended_address')->nullable();
+            $table->tinyInteger('highest_attained_grade')->unsigned();
+            $table->boolean('school_last_attended_sector')->nullable();
+
+            $table->tinyInteger('school_intended_to_enroll');
+            $table->text('school_intended_to_enroll_address');
+            $table->string('degree_program');
+            $table->boolean('school_intended_to_enroll_sector');
             
             $table->string('fathers_first_name')->nullable();
             $table->string('fathers_middle_name')->nullable();
             $table->string('fathers_last_name')->nullable();
             $table->string('fathers_extension_name')->nullable();
             $table->text('fathers_address')->nullable();
+            $table->text('fathers_contact_number')->nullable();
             $table->string('fathers_occupation')->nullable();
             $table->integer('fathers_annual_gross_income')->unsigned()->nullable();
             $table->string('fathers_name_of_employer')->nullable();
@@ -39,6 +50,7 @@ class CreateChedScholarsTable extends Migration
             $table->string('mothers_middle_name')->nullable();
             $table->string('mothers_last_name')->nullable();
             $table->text('mothers_address')->nullable();
+            $table->text('mothers_contact_number')->nullable();
             $table->string('mothers_occupation')->nullable();
             $table->integer('mothers_annual_gross_income')->unsigned()->nullable();
             $table->string('mothers_name_of_employer')->nullable();
@@ -49,15 +61,12 @@ class CreateChedScholarsTable extends Migration
             $table->string('legal_guardian_last_name')->nullable();
             $table->string('legal_guardian_extension_name')->nullable();
             $table->text('legal_guardian_address')->nullable();
+            $table->text('legal_guardian_contact_number')->nullable();
             $table->string('legal_guardian_occupation')->nullable();
             $table->integer('legal_guardian_annual_gross_income')->unsigned()->nullable();
             $table->string('legal_guardian_name_of_employer')->nullable();
             $table->string('legal_guardian_employer_address')->nullable();
 
-            $table->tinyInteger('school_intended_to_enroll');
-            $table->text('school_intended_to_enroll_address');
-            $table->boolean('type_of_school')->default(0);
-            $table->string('degree_program')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

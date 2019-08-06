@@ -295,7 +295,8 @@
 
 <script>
     const getPersons = (
-        page, per_page,
+        page,
+        per_page,
         first_name,
         middle_name,
         last_name,

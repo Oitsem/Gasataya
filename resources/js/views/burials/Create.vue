@@ -141,13 +141,12 @@
             createNewBurial() {
                 this.ifReady = false;
                 
-                console.log(this.$data);
-                /*axios.post('/api/burials', this.$data).then(res => {
+                axios.post('/api/burials', this.$data).then(res => {
                     this.$router.push({ name: 'burials.index' });
                 }).catch(err => {
                     this.ifReady = true;
                     console.log(err);
-                });*/
+                });
             }
         }
     }

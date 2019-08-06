@@ -64,6 +64,8 @@ class ChedScholarsController extends Controller
                 'errors'  => $validator->errors()
             ], 400);
         }
+
+        $this->chedScholar->generatePDF($request);
     
         if (! $this->chedScholar->store($request)) {
             return response()->json([
@@ -115,6 +117,8 @@ class ChedScholarsController extends Controller
                 'errors'  => $validator->errors()
             ], 400);
         }
+
+        $this->chedScholar->generatePDF($request);
     
         if (! $this->chedScholar->update($request, $id)) {
             return response()->json([

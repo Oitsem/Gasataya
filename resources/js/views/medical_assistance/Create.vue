@@ -241,6 +241,7 @@
                 first_name: '',
                 middle_name: '',
                 last_name: '',
+                extension_name: '',
                 address: '',
                 amount: '',
                 amount_in_words: '',

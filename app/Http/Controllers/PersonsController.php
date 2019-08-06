@@ -188,4 +188,23 @@ class PersonsController extends Controller
     {
         return $this->person->search(null, request()->search);
     }
+
+    /**
+     * Retrieve barangays.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getBarangays()
+    {
+        if (! $barangays = $this->person->getBarangays()) {
+            return response()->json([
+                'message' => 'Resource does not exist'
+            ], 400);
+        }
+    
+        return response()->json([
+            'message'   => 'Resource successfully retrieve',
+            'barangays' => $barangays
+        ], 200);
+    }
 }
