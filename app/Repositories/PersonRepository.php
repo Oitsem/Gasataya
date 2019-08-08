@@ -102,7 +102,9 @@ class PersonRepository extends Repository
      */
     public function getBarangays()
     {
-        return $this->barangays;
+        $this->barangays = collect($this->barangays);
+
+        return $this->barangays->toArray();
     }
 
     /**

@@ -37,10 +37,28 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col">
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label>Barangay</label>
+                                    <vue-select class="form-control" v-model="barangay" @input="selectBarangay()" label="name" :options="barangays"></vue-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Address</label>
-                                    <textarea class="form-control" v-model="address" maxlength="1000"></textarea>
+                                    <input type="text" class="form-control" v-model="address" autocomplete="off" maxlength="255" placeholder="Blk 22 Lot 9 San Lucas Street. Villa Angela Subd.">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">City</label>
+                                    <input type="text" class="form-control" v-model="city" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">Province</label>
+                                    <input type="text" class="form-control" v-model="province" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
 
@@ -174,11 +192,16 @@
         data() {
             return {
                 ifReady: false,
+                barangays: [],
+                barangay: '',
                 first_name: '',
                 middle_name: '',
                 last_name: '',
                 extension_name: '',
+                barangay_id: '',
                 address: '',
+                city: '',
+                province: '',
                 birthdate: '',
                 place_of_birth: '',
                 civil_status: '',
@@ -195,13 +218,32 @@
         },
 
         mounted() {
-            let promise = new Promise((resolve, reject) => {
+            let promiseBarangays = new Promise((resolve, reject) => {
+                axios.get('/api/persons/get-barangays').then(res => {
+                    let total = res.data.barangays;
+
+                    this.barangays = Object.keys(total).map((key) => {
+                        return {id: Number(key), name: 'Barangay ' + total[key]}
+                    });
+
+                    resolve();
+                }).catch(err => {
+                    this.ifReady = true;
+                    console.log(err);
+                    reject();
+                });
+            });
+
+            let promisePerson = new Promise((resolve, reject) => {
                 axios.get('/api/persons/' + this.$route.params.id).then(res => {
                     this.first_name         = res.data.person.first_name;
                     this.middle_name        = res.data.person.middle_name;
                     this.last_name          = res.data.person.last_name;
                     this.extension_name     = res.data.person.extension_name;
+                    this.barangay_id        = res.data.person.barangay_id;
                     this.address            = res.data.person.address;
+                    this.city               = res.data.person.city;
+                    this.province           = res.data.person.province;
                     this.birthdate          = res.data.person.birthdate;
                     this.place_of_birth     = res.data.person.place_of_birth;
                     this.civil_status       = res.data.person.civil_status;
@@ -219,16 +261,45 @@
                 });
             });
 
-            promise.then(() => {
+            Promise.all([promiseBarangays, promisePerson]).then(() => {
                 this.ifReady = true;
+
+                let barangayId = this.barangay_id - 1;
+                this.barangay = this.barangays[barangayId];
             });
         },
 
         methods: {
+            selectBarangay() {
+                this.barangay_id = this.barangay.id;
+            },
             updatePerson() {
                 this.ifReady = false;
 
-                axios.patch('/api/persons/' + this.$route.params.id, this.$data).then(res => {
+                let data = {
+                    first_name: this.first_name,
+                    middle_name: this.middle_name,
+                    last_name: this.last_name,
+                    extension_name: this.extension_name,
+                    barangay_id: this.barangay_id,
+                    address: this.address,
+                    city: this.city,
+                    province: this.province,
+                    birthdate: this.birthdate,
+                    place_of_birth: this.place_of_birth,
+                    civil_status: this.civil_status,
+                    citizenship: this.citizenship,
+                    number_of_siblings: this.number_of_siblings,
+                    sex: this.sex,
+                    email: this.email,
+                    mobile_number: this.mobile_number,
+                    telephone_number: this.telephone_number,
+                    occupation: this.occupation,
+                    zip_code: this.zip_code,
+                    district: this.district
+                };
+
+                axios.patch('/api/persons/' + this.$route.params.id, data).then(res => {
                     this.$router.push({
                         name: 'persons.view',
                         params: { id: this.$route.params.id }

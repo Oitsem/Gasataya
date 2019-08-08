@@ -30,20 +30,22 @@ class ChedScholar extends Model
         'school_intended_to_enroll', 'school_intended_to_enroll_address',
         'degree_program', 'school_intended_to_enroll_sector',
 
-        'fathers_first_name', 'fathers_middle_name',
-        'fathers_last_name', 'fathers_extension_name',
-        'fathers_address', 'fathers_contact_number',
+        'fathers_first_name', 'fathers_middle_name', 'fathers_last_name', 'fathers_extension_name',
+        'fathers_address', 'fathers_city', 'fathers_province',
+        'fathers_contact_number',
         'fathers_occupation', 'fathers_annual_gross_income',
         'fathers_name_of_employer', 'fathers_employer_address',
 
         'mothers_first_name', 'mothers_middle_name', 'mothers_last_name',
-        'mothers_address', 'mothers_contact_number',
+        'mothers_address', 'mothers_city', 'mothers_province',
+        'mothers_contact_number',
         'mothers_occupation', 'mothers_annual_gross_income',
         'mothers_name_of_employer', 'mothers_employer_address',
 
         'legal_guardian_first_name', 'legal_guardian_middle_name',
         'legal_guardian_last_name', 'legal_guardian_extension_name',
-        'legal_guardian_address', 'legal_guardian_contact_number',
+        'legal_guardian_address', 'legal_guardian_city', 'legal_guardian_province',
+        'legal_guardian_contact_number',
         'legal_guardian_occupation', 'legal_guardian_annual_gross_income',
         'legal_guardian_name_of_employer', 'legal_guardian_employer_address'
     ];

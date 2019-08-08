@@ -39,15 +39,14 @@
 
                             <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
-                                    <label>Barangays</label>
-                                    <vue-select v-model="barangay" @input="selectBarangay()" label="name" :options="barangays"></vue-select>
+                                    <label>Barangay</label>
+                                    <vue-select class="form-control" v-model="barangay" @input="selectBarangay()" label="name" :options="barangays"></vue-select>
                                 </div>
                             </div>
-
                             <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Address</label>
-                                    <input type="text" class="form-control" v-model="street" autocomplete="off" maxlength="255" placeholder="Ex. Block 31 Lot 16 San Lucas Street">
+                                    <input type="text" class="form-control" v-model="address" autocomplete="off" maxlength="255" placeholder="Blk 22 Lot 9 San Lucas Street. Villa Angela Subd.">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-12">
@@ -195,12 +194,13 @@
             return {
                 ifReady: false,
                 barangays: [],
+                barangay: '',
                 first_name: '',
                 middle_name: '',
                 last_name: '',
                 extension_name: '',
+                barangay_id: '',
                 address: '',
-                barangay: '',
                 city: 'Bacolod City',
                 province: 'Negros Occidental',
                 birthdate: '',
@@ -221,10 +221,17 @@
         mounted() {
             let promise = new Promise((resolve, reject) => {
                 axios.get('/api/persons/get-barangays').then(res => {
-                    this.barangays = res.data.barangays;
+                    let total = res.data.barangays;
+
+                    this.barangays = Object.keys(total).map((key) => {
+                        return {id: Number(key), name: 'Barangay ' + total[key]}
+                    });
+
+                    resolve();
                 }).catch(err => {
                     this.ifReady = true;
                     console.log(err);
+                    reject();
                 });
             });
 
@@ -234,8 +241,34 @@
         },
 
         methods: {
+            selectBarangay() {
+                this.barangay_id = this.barangay.id;
+            },
             createNewPerson() {
                 this.ifReady = false;
+
+                let data = {
+                    first_name: this.first_name,
+                    middle_name: this.middle_name,
+                    last_name: this.last_name,
+                    extension_name: this.extension_name,
+                    barangay_id: this.barangay_id,
+                    address: this.address,
+                    city: this.city,
+                    province: this.province,
+                    birthdate: this.birthdate,
+                    place_of_birth: this.place_of_birth,
+                    civil_status: this.civil_status,
+                    citizenship: this.citizenship,
+                    number_of_siblings: this.number_of_siblings,
+                    sex: this.sex,
+                    email: this.email,
+                    mobile_number: this.mobile_number,
+                    telephone_number: this.telephone_number,
+                    occupation: this.occupation,
+                    zip_code: this.zip_code,
+                    district: this.district
+                };
 
                 axios.post('/api/persons', this.$data).then(res => {
                     this.$router.push({ name: 'persons.index' });

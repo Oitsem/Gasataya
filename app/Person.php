@@ -22,8 +22,9 @@ class Person extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'first_name', 'middle_name', 'last_name',
-        'extension_name', 'address', 'birthdate', 'place_of_birth',
+        'user_id', 'first_name', 'middle_name', 'last_name', 'extension_name',
+        'barangay_id', 'address', 'city', 'province',
+        'birthdate', 'place_of_birth',
         'civil_status', 'citizenship', 'number_of_siblings', 'sex',
         'email', 'mobile_number', 'telephone_number',
         'occupation', 'zip_code', 'district'
@@ -34,7 +35,7 @@ class Person extends Model
      *
      * @var array
      */
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'full_address'];
 
     /**
      * Get the person's full name.
@@ -46,6 +47,18 @@ class Person extends Model
         $fullName = $this->first_name . ' ' . substr($this->middle_name, 0, 1) . '. ' . $this->last_name . ' ' . $this->extension_name;
 
         return trim($fullName);
+    }
+
+    /**
+     * Get the person's full address.
+     *
+     * @return string
+     */
+    public function getFullAddressAttribute()
+    {
+        $fullAddress = $this->address . ' ' . $this->city . ' ' . $this->zip_code . ' ' . $this->province;
+
+        return trim($fullAddress);
     }
 
     /**

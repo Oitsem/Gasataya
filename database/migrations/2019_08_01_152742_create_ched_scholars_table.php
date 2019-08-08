@@ -39,8 +39,10 @@ class CreateChedScholarsTable extends Migration
             $table->string('fathers_middle_name')->nullable();
             $table->string('fathers_last_name')->nullable();
             $table->string('fathers_extension_name')->nullable();
-            $table->text('fathers_address')->nullable();
-            $table->text('fathers_contact_number')->nullable();
+            $table->string('fathers_address')->nullable();
+            $table->string('fathers_city')->nullable();
+            $table->string('fathers_province')->nullable();
+            $table->string('fathers_contact_number')->nullable();
             $table->string('fathers_occupation')->nullable();
             $table->integer('fathers_annual_gross_income')->unsigned()->nullable();
             $table->string('fathers_name_of_employer')->nullable();
@@ -49,8 +51,10 @@ class CreateChedScholarsTable extends Migration
             $table->string('mothers_first_name')->nullable();
             $table->string('mothers_middle_name')->nullable();
             $table->string('mothers_last_name')->nullable();
-            $table->text('mothers_address')->nullable();
-            $table->text('mothers_contact_number')->nullable();
+            $table->string('mothers_address')->nullable();
+            $table->string('mothers_city')->nullable();
+            $table->string('mothers_province')->nullable();
+            $table->string('mothers_contact_number')->nullable();
             $table->string('mothers_occupation')->nullable();
             $table->integer('mothers_annual_gross_income')->unsigned()->nullable();
             $table->string('mothers_name_of_employer')->nullable();
@@ -60,8 +64,10 @@ class CreateChedScholarsTable extends Migration
             $table->string('legal_guardian_middle_name')->nullable();
             $table->string('legal_guardian_last_name')->nullable();
             $table->string('legal_guardian_extension_name')->nullable();
-            $table->text('legal_guardian_address')->nullable();
-            $table->text('legal_guardian_contact_number')->nullable();
+            $table->string('legal_guardian_address')->nullable();
+            $table->string('legal_guardian_city')->nullable();
+            $table->string('legal_guardian_province')->nullable();
+            $table->string('legal_guardian_contact_number')->nullable();
             $table->string('legal_guardian_occupation')->nullable();
             $table->integer('legal_guardian_annual_gross_income')->unsigned()->nullable();
             $table->string('legal_guardian_name_of_employer')->nullable();

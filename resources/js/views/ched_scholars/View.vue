@@ -46,10 +46,28 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col">
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label>Barangay</label>
+                                    <input type="text" class="form-control" v-model="chedScholar.person.barangay" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Address</label>
-                                    <textarea class="form-control" v-model="chedScholar.person.address" maxlength="1000"></textarea>
+                                    <input type="text" class="form-control" v-model="chedScholar.person.address" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">City</label>
+                                    <input type="text" class="form-control" v-model="chedScholar.person.city" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">Province</label>
+                                    <input type="text" class="form-control" v-model="chedScholar.person.province" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
 
@@ -300,10 +318,22 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col">
+                            <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Address</label>
-                                    <textarea class="form-control" v-model="chedScholar.fathers_address" maxlength="1000" required></textarea>
+                                    <input type="text" class="form-control" v-model="chedScholar.fathers_address" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">City</label>
+                                    <input type="text" class="form-control" v-model="chedScholar.fathers_city" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">Province</label>
+                                    <input type="text" class="form-control" v-model="chedScholar.fathers_province" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
 
@@ -371,10 +401,22 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col">
+                            <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Address</label>
-                                    <textarea class="form-control" v-model="chedScholar.mothers_address" maxlength="1000" required></textarea>
+                                    <input type="text" class="form-control" v-model="chedScholar.mothers_address" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">City</label>
+                                    <input type="text" class="form-control" v-model="chedScholar.mothers_city" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">Province</label>
+                                    <input type="text" class="form-control" v-model="chedScholar.mothers_province" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
 
@@ -448,10 +490,22 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col">
+                            <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Address</label>
-                                    <textarea class="form-control" v-model="chedScholar.legal_guardian_address" maxlength="1000" required></textarea>
+                                    <input type="text" class="form-control" v-model="chedScholar.legal_guardian_address" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">City</label>
+                                    <input type="text" class="form-control" v-model="chedScholar.legal_guardian_city" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">Province</label>
+                                    <input type="text" class="form-control" v-model="chedScholar.legal_guardian_province" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
 
@@ -547,12 +601,28 @@
         data() {
             return {
                 ifReady: false,
+                barangays: [],
                 chedScholar: ''
             };
         },
 
         mounted() {
-            let promise = new Promise((resolve, reject) => {
+            let promiseBarangays = new Promise((resolve, reject) => {
+                axios.get('/api/persons/get-barangays').then(res => {
+                    let total = res.data.barangays;
+
+                    this.barangays = Object.keys(total).map((key) => {
+                        return {id: Number(key), name: 'Barangay ' + total[key]}
+                    });
+
+                    resolve();
+                }).catch(err => {
+                    console.log(err);
+                    reject();
+                });
+            });
+
+            let promiseChedScholar = new Promise((resolve, reject) => {
                 axios.get('/api/ched-scholars/' + this.$route.params.id).then(res => {
                     this.chedScholar = res.data.ched_scholar;
                     this.chedScholar.file = '/storage/ched_scholars/' + this.chedScholar.file;
@@ -560,8 +630,11 @@
                 });
             });
 
-            promise.then(() => {
+            Promise.all([promiseBarangays, promiseChedScholar]).then(() => {
                 this.ifReady = true;
+
+                let barangayId = this.person.barangay_id - 1;
+                this.chedScholar.person.barangay = this.barangays[barangayId].name;
             });
         },
 

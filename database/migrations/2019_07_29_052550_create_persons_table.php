@@ -23,7 +23,10 @@ class CreatePersonsTable extends Migration
             $table->string('middle_name');
             $table->string('last_name');
             $table->string('extension_name')->nullable();
-            $table->text('address')->nullable();
+            $table->tinyInteger('barangay_id')->unsigned()->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('province')->nullable();
             $table->date('birthdate')->nullable();
             $table->string('place_of_birth')->nullable();
             $table->tinyInteger('civil_status')->nullable();

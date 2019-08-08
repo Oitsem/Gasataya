@@ -13,7 +13,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Search Person</label>
-                                    <vue-select label="name" :filterable="false" v-model="person" @input="selectPerson()" :options="persons" @search="onSearch">
+                                    <vue-select class="form-control" label="name" :filterable="false" v-model="person" @input="selectPerson()" :options="persons" @search="onSearch">
                                         <template slot="no-options">
                                             Search Persons
                                         </template>
@@ -62,10 +62,28 @@
 
                                 <div class="w-100"></div>
 
-                                <div class="col">
+                                <div class="col-lg-3 col-md-12">
+                                    <div class="form-group">
+                                        <label>Barangay</label>
+                                        <input type="text" class="form-control" v-model="barangay" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-12">
                                     <div class="form-group">
                                         <label for="name">Address</label>
-                                        <textarea class="form-control" v-model="address" maxlength="1000"></textarea>
+                                        <input type="text" class="form-control" v-model="address" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">City</label>
+                                        <input type="text" class="form-control" v-model="city" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">Province</label>
+                                        <input type="text" class="form-control" v-model="province" autocomplete="off" maxlength="255">
                                     </div>
                                 </div>
 
@@ -316,10 +334,22 @@
 
                                 <div class="w-100"></div>
 
-                                <div class="col">
+                                <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label for="name">Address</label>
-                                        <textarea class="form-control" v-model="fathers_address" maxlength="1000" required></textarea>
+                                        <input type="text" class="form-control" v-model="fathers_address" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">City</label>
+                                        <input type="text" class="form-control" v-model="fathers_city" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">Province</label>
+                                        <input type="text" class="form-control" v-model="fathers_province" autocomplete="off" maxlength="255">
                                     </div>
                                 </div>
 
@@ -387,10 +417,22 @@
 
                                 <div class="w-100"></div>
 
-                                <div class="col">
+                                <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label for="name">Address</label>
-                                        <textarea class="form-control" v-model="mothers_address" maxlength="1000" required></textarea>
+                                        <input type="text" class="form-control" v-model="mothers_address" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">City</label>
+                                        <input type="text" class="form-control" v-model="mothers_city" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">Province</label>
+                                        <input type="text" class="form-control" v-model="mothers_province" autocomplete="off" maxlength="255">
                                     </div>
                                 </div>
 
@@ -464,10 +506,22 @@
 
                                 <div class="w-100"></div>
 
-                                <div class="col">
+                                <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label for="name">Address</label>
-                                        <textarea class="form-control" v-model="legal_guardian_address" maxlength="1000" required></textarea>
+                                        <input type="text" class="form-control" v-model="legal_guardian_address" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">City</label>
+                                        <input type="text" class="form-control" v-model="legal_guardian_city" autocomplete="off" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">Province</label>
+                                        <input type="text" class="form-control" v-model="legal_guardian_province" autocomplete="off" maxlength="255">
                                     </div>
                                 </div>
 
@@ -540,11 +594,16 @@
                 persons: [],
                 person: null,
                 person_id: null,
+                barangays: [],
+                barangay: '',
                 first_name: '',
                 middle_name: '',
                 last_name: '',
                 extension_name: '',
+                barangay_id: '',
                 address: '',
+                city: '',
+                province: '',
                 birthdate: '',
                 place_of_birth: '',
                 civil_status: '',
@@ -570,6 +629,8 @@
                 fathers_last_name: '',
                 fathers_extension_name: '',
                 fathers_address: '',
+                fathers_city: '',
+                fathers_province: '',
                 fathers_occupation: '',
                 fathers_contact_number: '',
                 fathers_annual_gross_income: '',
@@ -580,6 +641,8 @@
                 mothers_last_name: '',
                 mothers_extension_name: '',
                 mothers_address: '',
+                mothers_city: '',
+                mothers_province: '',
                 mothers_occupation: '',
                 mothers_contact_number: '',
                 mothers_annual_gross_income: '',
@@ -590,12 +653,35 @@
                 legal_guardian_last_name: '',
                 legal_guardian_extension_name: '',
                 legal_guardian_address: '',
+                legal_guardian_city: '',
+                legal_guardian_province: '',
                 legal_guardian_occupation: '',
                 legal_contact_number: '',
                 legal_guardian_annual_gross_income: '',
                 legal_guardian_name_of_employer: '',
                 legal_guardian_employer_address: ''
             };
+        },
+
+        mounted() {
+            let promise = new Promise((resolve, reject) => {
+                axios.get('/api/persons/get-barangays').then(res => {
+                    let total = res.data.barangays;
+
+                    this.barangays = Object.keys(total).map((key) => {
+                        return {id: Number(key), name: 'Barangay ' + total[key]}
+                    });
+
+                    resolve();
+                }).catch(err => {
+                    console.log(err);
+                    reject();
+                });
+            });
+
+            promise.then(() => {
+                this.ifReady = true;
+            });
         },
 
         methods: {
@@ -615,7 +701,10 @@
                 this.middle_name        = this.person.middle_name;
                 this.last_name          = this.person.last_name;
                 this.extension_name     = this.person.extension_name;
+                this.barangay_id        = this.person.barangay_id;
                 this.address            = this.person.address;
+                this.city               = this.person.city;
+                this.province           = this.person.province;
                 this.birthdate          = this.person.birthdate;
                 this.place_of_birth     = this.person.place_of_birth;
                 this.civil_status       = this.person.civil_status;
@@ -628,6 +717,9 @@
                 this.occupation         = this.person.occupation;
                 this.zip_code           = this.person.zip_code;
                 this.district           = this.person.district;
+
+                let barangayId = this.person.barangay_id - 1;
+                this.barangay = this.barangays[barangayId].name;
             },
             toggleSchoolLastAttendedSector(value) {
                 if (value == 0) {
