@@ -1,18 +1,21 @@
 <template>
     <div>
         <div class="card">
-            <div class="card-header">
-                <router-link class="text-primary" :to="{ name: 'medical-assistance.index' }">Medical Assistance</router-link>
-                /
-                <a class="text-secondary">Create New Medical Assistance</a>
-            </div>
-            <div class="card-body">
-                <div v-if="ifReady">
+            <div class="card-header clearfix">
+                <div class="float-left">
+                    <router-link class="text-primary" :to="{ name: 'medical-assistance.index' }">Medical Assistance</router-link>
+                    /
+                    <a class="text-secondary">View Medical Assistance</a>
+                </div>
+                <div class="float-right">
                     <a class="btn btn-success btn-sm" target="_blank" :href="medicalAssistance.file">
                         <i class="fas fa-eye"></i>&nbsp;
                         <strong>View Medical Assistance PDF</strong>
                     </a>
-                    <br><br>
+                </div>
+            </div>
+            <div class="card-body">
+                <div v-if="ifReady">
                     <fieldset disabled>
                         <div class="row">
                             <div class="col">
@@ -244,7 +247,14 @@
                     this.medicalAssistance = res.data.medical_assistance;
                     this.medicalAssistance.file = '/storage/medical_records/' + this.medicalAssistance.file;
 
-                    this.medicalAssistance.amount_in_words = amountConverter.convert(this.medicalAssistance.amount).toString().toUpperCase() + ' PESOS ONLY';
+                    let amount = this.medicalAssistance.amount;
+                    
+                    if (amount.substr(amount.length - 3) == ".00") {
+                        amount = amount.replace(".00", "");
+                    }
+
+                    this.medicalAssistance.amount = amount;
+                    this.medicalAssistance.amount_in_words = amountConverter.convert(amount).toString().toUpperCase() + ' PESOS ONLY';
 
                     resolve();
                 }).catch(err => {

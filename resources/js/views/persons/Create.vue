@@ -37,10 +37,28 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col">
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label>Barangay</label>
+                                    <vue-select class="form-control" v-model="barangay" @input="selectBarangay()" label="name" :options="barangays"></vue-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Address</label>
-                                    <textarea class="form-control" v-model="address" maxlength="1000"></textarea>
+                                    <input type="text" class="form-control" v-model="address" autocomplete="off" maxlength="255" placeholder="Blk 22 Lot 9 San Lucas Street. Villa Angela Subd.">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">City</label>
+                                    <input type="text" class="form-control" v-model="city" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">Province</label>
+                                    <input type="text" class="form-control" v-model="province" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
 
@@ -174,12 +192,17 @@
     export default {
         data() {
             return {
-                ifReady: true,
+                ifReady: false,
+                barangays: [],
+                barangay: '',
                 first_name: '',
                 middle_name: '',
                 last_name: '',
                 extension_name: '',
+                barangay_id: '',
                 address: '',
+                city: 'Bacolod City',
+                province: 'Negros Occidental',
                 birthdate: '',
                 place_of_birth: '',
                 civil_status: 1,
@@ -195,9 +218,57 @@
             };
         },
 
+        mounted() {
+            let promise = new Promise((resolve, reject) => {
+                axios.get('/api/persons/get-barangays').then(res => {
+                    let total = res.data.barangays;
+
+                    this.barangays = Object.keys(total).map((key) => {
+                        return {id: Number(key), name: 'Barangay ' + total[key]}
+                    });
+
+                    resolve();
+                }).catch(err => {
+                    this.ifReady = true;
+                    console.log(err);
+                    reject();
+                });
+            });
+
+            promise.then(() => {
+                this.ifReady = true;
+            });
+        },
+
         methods: {
+            selectBarangay() {
+                this.barangay_id = this.barangay.id;
+            },
             createNewPerson() {
                 this.ifReady = false;
+
+                let data = {
+                    first_name: this.first_name,
+                    middle_name: this.middle_name,
+                    last_name: this.last_name,
+                    extension_name: this.extension_name,
+                    barangay_id: this.barangay_id,
+                    address: this.address,
+                    city: this.city,
+                    province: this.province,
+                    birthdate: this.birthdate,
+                    place_of_birth: this.place_of_birth,
+                    civil_status: this.civil_status,
+                    citizenship: this.citizenship,
+                    number_of_siblings: this.number_of_siblings,
+                    sex: this.sex,
+                    email: this.email,
+                    mobile_number: this.mobile_number,
+                    telephone_number: this.telephone_number,
+                    occupation: this.occupation,
+                    zip_code: this.zip_code,
+                    district: this.district
+                };
 
                 axios.post('/api/persons', this.$data).then(res => {
                     this.$router.push({ name: 'persons.index' });

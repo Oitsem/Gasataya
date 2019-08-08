@@ -3,12 +3,15 @@
         <div class="card">
             <div class="card-header clearfix">
                 <div class="float-left">
-                    <router-link class="text-primary" :to="{ name: 'persons.index' }">Persons</router-link>
+                    <router-link class="text-primary" :to="{ name: 'medical-assistance.index' }">Medical Assistance</router-link>
                     /
-                    <span class="text-secondary">View Persons</span>
+                    <span class="text-secondary">View Medical Assistance</span>
                 </div>
                 <div class="float-right">
-                    <router-link class="btn btn-success btn-sm" :to="{ name: 'persons.create' }"><i class="fas fa-plus"></i>&nbsp; Create New Person</router-link>
+                    <router-link class="btn btn-success btn-sm" :to="{ name: 'medical-assistance.create' }">
+                        <i class="fas fa-plus"></i>&nbsp;
+                        <strong>Create New Medical Assistance</strong>
+                    </router-link>
                 </div>
             </div>
             <div class="card-body">
@@ -16,7 +19,7 @@
                     <caption>
                         <div class="row">
                             <div class="col-md-9">
-                                List of Persons - Total Items {{ this.meta.total }}
+                                List of Medical Assistance - <strong>Total Items {{ this.meta.total }}</strong>
                             </div>
                             <div class="col-md-3">
                                 <div class="progress" height="30px;" v-if="showProgress">
@@ -27,24 +30,24 @@
                     </caption>
                     <thead>
                         <tr>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Middle Name</th>
-                            <th scope="col">Last Name</th>
+                            <th scope="col">Person's Name</th>
+                            <th scope="col">Amount</th>
                             <th scope="col">Options</th>
                         </tr>
                     </thead>
-                    <tbody v-if="persons">
-                        <tr v-for="person in persons">
-                            <td>{{ person.first_name }}</td>
-                            <td>{{ person.middle_name }}</td>
-                            <td>{{ person.last_name }}</td>
+                    <tbody v-if="medicalAssistance">
+                        <tr v-for="medicalAssist in medicalAssistance">
+                            <td>{{ medicalAssist.person.full_name }}</td>
+                            <td>{{ medicalAssist.amount | RemoveDecimals }}</td>
                             <td>
-                                <router-link class="text-secondary" :to="{ name: 'persons.view', params: { id: person.id } }">
-                                    <i class="fas fa-envelope-open-text"></i> View
+                                <router-link class="text-secondary" :to="{ name: 'medical-assistance.view', params: { id: medicalAssist.id } }">
+                                    <i class="fas fa-eye"></i>
+                                    <strong>View</strong>
                                 </router-link>
-                                |
-                                <router-link class="text-secondary" :to="{ name: 'persons.edit', params: { id: person.id }}">
-                                    <i class="fas fa-edit"></i> Edit
+                                &nbsp; | &nbsp;
+                                <router-link class="text-secondary" :to="{ name: 'medical-assistance.edit', params: { id: medicalAssist.id }}">
+                                    <i class="fas fa-edit"></i>
+                                    <strong>Edit</strong>
                                 </router-link>
                             </td>
                         </tr>
@@ -60,19 +63,19 @@
                 <nav class="float-left">
                     <ul class="pagination">
                         <li class="page-item" v-bind:class="isPrevDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled>Previous</a>
+                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled><strong>Previous</strong></a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="#" @click.prevent="goToFirstPage">First</a>
+                            <a class="page-link" href="#" @click.prevent="goToFirstPage"><strong>First</strong></a>
                         </li>
                         <li class="page-item" v-for="pageNumber in pageNumbers" v-bind:class="isPageActive(pageNumber)">
                             <a class="page-link" href="#" @click.prevent="goToPage(pageNumber)">{{ pageNumber }}</a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToLastPage">Last</a>
+                            <a class="page-link" href="#" @click.prevent="goToLastPage"><strong>Last</strong></a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToNextPage">Next</a>
+                            <a class="page-link" href="#" @click.prevent="goToNextPage"><strong>Next</strong></a>
                         </li>
                     </ul>
                 </nav>
@@ -81,19 +84,19 @@
                 <nav class="float-left">
                     <ul class="pagination">
                         <li class="page-item" v-bind:class="isPrevDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled>Previous</a>
+                            <a class="page-link" href="#" @click.prevent="goToPreviousPage" disabled><strong>Previous</strong></a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="#" @click.prevent="goToFirstPage">First</a>
+                            <a class="page-link" href="#" @click.prevent="goToFirstPage"><strong>First</strong></a>
                         </li>
                         <li class="page-item" v-for="pageNumber in pageNumbers" v-bind:class="isPageActive(pageNumber)">
                             <a class="page-link" href="#" @click.prevent="goToPage(pageNumber)">{{ pageNumber }}</a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToLastPage">Last</a>
+                            <a class="page-link" href="#" @click.prevent="goToLastPage"><strong>Last</strong></a>
                         </li>
                         <li class="page-item" v-bind:class="isNextDisabled">
-                            <a class="page-link" href="#" @click.prevent="goToNextPage">Next</a>
+                            <a class="page-link" href="#" @click.prevent="goToNextPage"><strong>Next</strong></a>
                         </li>
                     </ul>
                 </nav>
@@ -101,7 +104,10 @@
 
             <div class="float-right">
                 <form class="form-inline">
-                    <button type="button" class="btn btn-primary mr-2" @click.prevent.default="openSearchModal()">Search Persons</button>
+                    <button type="button" class="btn btn-primary mr-2" @click.prevent.default="openSearchModal()">
+                        <i class="fas fa-search"></i>&nbsp;
+                        Search Medical Assistance
+                    </button>
                     <label class="sr-only" for="Number of Items">Number of Items</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -117,11 +123,11 @@
                 </form>
             </div>
 
-            <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="filterPersons" aria-hidden="true">
+            <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="filter" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Search Persons</h5>
+                            <h5 class="modal-title">Search Medical Assistance</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -130,52 +136,13 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="name">First Name</label>
-                                        <input type="text" class="form-control" v-model="first_name" autocomplete="off" maxlength="255">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="name">Middle Name</label>
-                                        <input type="text" class="form-control" v-model="middle_name" autocomplete="off" maxlength="255">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="name">Last Name</label>
-                                        <input type="text" class="form-control" v-model="last_name" autocomplete="off" maxlength="255">
-                                    </div>
-                                </div>
-
-                                <div class="w-100"></div>
-
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label>Birthdate</label>
-                                        <input type="date" class="form-control" v-model="birthdate" autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="col"></div>
-                                <div class="col"></div>
-
-                                <div class="w-100"></div>
-
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label>Email Address</label>
-                                        <input type="email" class="form-control" v-model="email" autocomplete="off" maxlength="255">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label>Phone Number</label>
-                                        <input type="text" class="form-control" v-model="phone_number" autocomplete="off" maxlength="255">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label>Telephone Number</label>
-                                        <input type="text" class="form-control" v-model="telephone_number" autocomplete="off" maxlength="255">
+                                        <label for="name">Amount</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">PHP</div>
+                                            </div>
+                                            <input type="number" class="form-control" v-model="amount" @input="convertAmount()" autocomplete="off" required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -201,10 +168,10 @@
 </template>
 
 <script>
-    const getPersons = (page, per_page, searchColumnName, searchColumnEmail, order_by, callback) => {
-        const params = { page, per_page, searchColumnName, searchColumnEmail, order_by };
+    const getMedicalAssistance = (page, per_page, order_by, callback) => {
+        const params = { page, per_page, order_by };
 
-        axios.get('/api/persons', { params }).then(res => {
+        axios.get('/api/medical-assistance', { params }).then(res => {
             callback(null, res.data);
         }).catch(error => {
             if (error.response.status == 401) {
@@ -220,14 +187,8 @@
     export default {
         data() {
             return {
-                persons: null,
-                first_name: '',
-                middle_name: '',
-                last_name: '',
-                birthdate: '',
-                email: '',
-                phone_number: '',
-                telephone_number: '',
+                medicalAssistance: null,
+                amount: '',
                 order_by: 'desc',
                 meta: {
                     current_page: null,
@@ -252,21 +213,29 @@
 
         beforeRouteEnter (to, from, next) {
             if (to.query.per_page == null) {
-                getPersons(to.query.page, 10, to.query.searchColumnName, to.query.searchColumnEmail, to.query.order_by, (err, data) => {
+                getMedicalAssistance(to.query.page, 10, to.query.order_by, (err, data) => {
                     next(vm => vm.setData(err, data));
                 });
             } else {
-                getPersons(to.query.page, to.query.per_page, to.query.searchColumnName, to.query.searchColumnEmail, to.query.order_by, (err, data) => {
+                getMedicalAssistance(to.query.page, to.query.per_page, to.query.order_by, (err, data) => {
                     next(vm => vm.setData(err, data));
                 });
             }
         },
 
         beforeRouteUpdate (to, from, next) {
-            getPersons(to.query.page, this.meta.per_page, this.searchColumnName, this.searchColumnEmail, this.order_by, (err, data) => {
+            getMedicalAssistance(to.query.page, this.meta.per_page, this.order_by, (err, data) => {
                 this.setData(err, data);
                 next();
             });
+        },
+
+        filters: {
+            RemoveDecimals: function (value) {
+                if (value.substr(value.length - 3) == ".00") {
+                    return value.replace(".00", "");
+                }
+            }
         },
 
         computed: {
@@ -312,17 +281,11 @@
             goToFirstPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'items.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        first_name: this.first_name,
-                        middle_name: this.middle_name,
-                        last_name: this.last_name,
-                        birthdate: this.birthdate,
-                        email: this.email,
-                        phone_number: this.phone_number,
-                        telephone_number: this.telephone_number,
+                        amount: this.amount,
                         order_by: this.order_by
                     },
                 });
@@ -330,17 +293,11 @@
             goToPage(page = null) {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'items.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page,
                         per_page: this.meta.per_page,
-                        first_name: this.first_name,
-                        middle_name: this.middle_name,
-                        last_name: this.last_name,
-                        birthdate: this.birthdate,
-                        email: this.email,
-                        phone_number: this.phone_number,
-                        telephone_number: this.telephone_number,
+                        amount: this.amount,
                         order_by: this.order_by
                     },
                 });
@@ -348,17 +305,11 @@
             goToLastPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'persons.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: this.meta.last_page,
                         per_page: this.meta.per_page,
-                        first_name: this.first_name,
-                        middle_name: this.middle_name,
-                        last_name: this.last_name,
-                        birthdate: this.birthdate,
-                        email: this.email,
-                        phone_number: this.phone_number,
-                        telephone_number: this.telephone_number,
+                        amount: this.amount,
                         order_by: this.order_by
                     }
                 });
@@ -366,17 +317,11 @@
             goToNextPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'persons.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: this.nextPage,
                         per_page: this.meta.per_page,
-                        first_name: this.first_name,
-                        middle_name: this.middle_name,
-                        last_name: this.last_name,
-                        birthdate: this.birthdate,
-                        email: this.email,
-                        phone_number: this.phone_number,
-                        telephone_number: this.telephone_number,
+                        amount: this.amount,
                         order_by: this.order_by
                     }
                 });
@@ -384,28 +329,22 @@
             goToPreviousPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'persons.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: this.prevPage,
                         per_page: this.meta.per_page,
-                        first_name: this.first_name,
-                        middle_name: this.middle_name,
-                        last_name: this.last_name,
-                        birthdate: this.birthdate,
-                        email: this.email,
-                        phone_number: this.phone_number,
-                        telephone_number: this.telephone_number,
+                        amount: this.amount,
                         order_by: this.order_by
                     }
                 });
             },
-            setData(err, { data: persons, links, meta }) {
+            setData(err, { data: medicalAssistance, links, meta }) {
                 this.pageNumbers = [];
 
                 if (err) {
                     this.error = err.toString();
                 } else {
-                    this.persons = persons;
+                    this.medicalAssistance = medicalAssistance;
                     this.links = links;
                     this.meta = meta;
                 }
@@ -466,17 +405,11 @@
             changePerPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'persons.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        first_name: this.first_name,
-                        middle_name: this.middle_name,
-                        last_name: this.last_name,
-                        birthdate: this.birthdate,
-                        email: this.email,
-                        phone_number: this.phone_number,
-                        telephone_number: this.telephone_number,
+                        amount: this.amount,
                         order_by: this.order_by
                     }
                 });
@@ -485,25 +418,17 @@
                 $('#searchModal').modal('hide');
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'persons.index',
+                    name: 'medical-assistance.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        first_name: this.first_name,
-                        middle_name: this.middle_name,
-                        last_name: this.last_name,
-                        birthdate: this.birthdate,
-                        email: this.email,
-                        phone_number: this.phone_number,
-                        telephone_number: this.telephone_number,
+                        amount: this.amount,
                         order_by: this.order_by
                     }
                 });
             },
             clear() {
-                this.first_name = '';
-                this.email = '';
-                this
+                this.amount = '';
                 this.order_by = 'desc';
             },
             openSearchModal() {

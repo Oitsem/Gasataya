@@ -37,10 +37,28 @@
 
                             <div class="w-100"></div>
 
-                            <div class="col">
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label>Barangay</label>
+                                    <input type="text" class="form-control" v-model="person.barangay_name" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
                                 <div class="form-group">
                                     <label for="name">Address</label>
-                                    <textarea class="form-control" v-model="person.address" maxlength="1000"></textarea>
+                                    <input type="text" class="form-control" v-model="person.address" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">City</label>
+                                    <input type="text" class="form-control" v-model="person.city" autocomplete="off" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">
+                                    <label for="name">Province</label>
+                                    <input type="text" class="form-control" v-model="person.province" autocomplete="off" maxlength="255">
                                 </div>
                             </div>
 
@@ -233,22 +251,45 @@
         data() {
             return {
                 ifReady: false,
+                barangays: [],
                 person: '',
                 medicalAssistance: null
             };
         },
 
         mounted() {
-            let promise = new Promise((resolve, reject) => {
-                axios.get('/api/persons/' + this.$route.params.id).then(res => {
-                    this.person = res.data.person;
-                    this.medicalAssistance = res.data.person.medical_assistance;
+            let promiseBarangays = new Promise((resolve, reject) => {
+                axios.get('/api/persons/get-barangays').then(res => {
+                    let total = res.data.barangays;
+
+                    this.barangays = Object.keys(total).map((key) => {
+                        return {id: Number(key), name: 'Barangay ' + total[key]}
+                    });
+
                     resolve();
+                }).catch(err => {
+                    console.log(err);
+                    reject();
                 });
             });
 
-            promise.then(() => {
+            let promisePerson = new Promise((resolve, reject) => {
+                axios.get('/api/persons/' + this.$route.params.id).then(res => {
+                    this.person            = res.data.person;
+                    this.medicalAssistance = res.data.person.medical_assistance;
+                    
+                    resolve();
+                }).catch(err => {
+                    console.log(err);
+                    reject();
+                });
+            });
+
+            Promise.all([promiseBarangays, promisePerson]).then(() => {
                 this.ifReady = true;
+
+                let barangayId = this.person.barangay_id - 1;
+                this.person.barangay_name = this.barangays[barangayId].name;
             });
         },
 

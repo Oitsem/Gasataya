@@ -41,7 +41,7 @@
                     </thead>
                     <tbody v-if="burials">
                         <tr v-for="burial in burials">
-                            <td>{{ burial.person.first_name }} {{ burial.person.middle_name }} {{ burial.person.last_name }}</td>
+                            <td>{{ burial.person.full_name }}</td>
                             <td>{{ burial.name_of_deceased_person }}</td>
                             <td>{{ burial.relation_to_the_deceased_person }}</td>
                             <td>{{ burial.place_of_wake }}</td>
@@ -113,7 +113,7 @@
             <div class="float-right">
                 <form class="form-inline">
                     <button type="button" class="btn btn-primary mr-2" @click.prevent.default="openSearchModal()">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-search"></i>&nbsp;
                         Search Burials
                     </button>
                     <label class="sr-only" for="Number of Items">Number of Items</label>
@@ -145,7 +145,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">Requesters Name</label>
-                                        <input type="text" class="form-control" v-model="first_name + ' ' + middle_name + ' '+ last_name" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <input type="text" class="form-control" v-model="requesters_name" autocomplete="off">
                                     </div>
                                 </div>
 
@@ -154,13 +154,13 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="name">Name Of Deceased Person</label>
-                                        <input type="text" class="form-control" v-model="name_of_deceased_person" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <input type="text" class="form-control" v-model="name_of_deceased_person" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="name">Relation To The Deceased Person</label>
-                                        <input type="text" class="form-control" v-model="relation_to_the_deceased_person" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <input type="text" class="form-control" v-model="relation_to_the_deceased_person" autocomplete="off">
                                     </div>
                                 </div>
 
@@ -169,13 +169,13 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="name">Place Of Wake</label>
-                                        <input type="text" class="form-control" v-model="place_of_wake" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <input type="text" class="form-control" v-model="place_of_wake" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="name">Place Of Burial</label>
-                                        <input type="text" class="form-control" v-model="place_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <input type="text" class="form-control" v-model="place_of_burial" autocomplete="off">
                                     </div>
                                 </div>
 
@@ -184,7 +184,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">Date And Time Of Burial</label>
-                                        <input type="datetime-local" class="form-control" v-model="date_and_time_of_burial" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <input type="datetime-local" class="form-control" v-model="date_and_time_of_burial" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -211,17 +211,6 @@
 
 <script>
     const getBurials = (
-        page,
-        per_page,
-        requesters_name,
-        name_of_deceased_person,
-        relation_to_the_deceased_person,
-        place_of_wake,
-        date_and_time_of_burial,
-        place_of_burial,
-        order_by,
-        callback) => {
-        const params = {
             page,
             per_page,
             requesters_name,
@@ -230,349 +219,357 @@
             place_of_wake,
             date_and_time_of_burial,
             place_of_burial,
-            order_by };
+            order_by,
+            callback
+        ) => {
+            const params = {
+                page,
+                per_page,
+                requesters_name,
+                name_of_deceased_person,
+                relation_to_the_deceased_person,
+                place_of_wake,
+                date_and_time_of_burial,
+                place_of_burial,
+                order_by
+            };
 
-            axios.get('/api/burials', { params }).then(res => {
-                callback(null, res.data);
-            }).catch(error => {
-                if (error.response.status == 401) {
-                    location.reload();
-                }
+        axios.get('/api/burials', { params }).then(res => {
+            callback(null, res.data);
+        }).catch(error => {
+            if (error.response.status == 401) {
+                location.reload();
+            }
 
-                if (error.response.status == 500) {
-                    alert('Kindly report this issue to the devs.');
-                }
-            });
-        };
+            if (error.response.status == 500) {
+                alert('Kindly report this issue to the devs.');
+            }
+        });
+    };
 
-        export default {
-            data() {
-                return {
-                    burials: null,
-                    requesters_name: '',
-                    name_of_deceased_person: '',
-                    relation_to_the_deceased_person: '',
-                    place_of_wake: '',
-                    place_of_burial: '',
-                    date_and_time_of_burial: '',
-                    order_by: 'desc',
-                    meta: {
-                        current_page: null,
-                        from: null,
-                        last_page: null,
-                        path: null,
-                        per_page: 10,
-                        to: null,
-                        total: null
-                    },
-                    links: {
-                        first: null,
-                        last: null,
-                        next: null,
-                        prev: null,
-                    },
-                    error: null,
-                    showProgress: false,
-                    pageNumbers: []
-                };
-            },
+    export default {
+        data() {
+            return {
+                burials: null,
+                requesters_name: '',
+                name_of_deceased_person: '',
+                relation_to_the_deceased_person: '',
+                place_of_wake: '',
+                place_of_burial: '',
+                date_and_time_of_burial: '',
+                order_by: 'desc',
+                meta: {
+                    current_page: null,
+                    from: null,
+                    last_page: null,
+                    path: null,
+                    per_page: 10,
+                    to: null,
+                    total: null
+                },
+                links: {
+                    first: null,
+                    last: null,
+                    next: null,
+                    prev: null,
+                },
+                error: null,
+                showProgress: false,
+                pageNumbers: []
+            };
+        },
 
-            beforeRouteEnter (to, from, next) {
-                if (to.query.per_page == null) {
-                    getBurials(
-                        to.query.page,
-                        10,
-                        to.query.requesters_name,
-                        to.query.name_of_deceased_person,
-                        to.query.relation_to_the_deceased_person,
-                        to.query.place_of_wake,
-                        to.query.place_of_burial,
-                        to.query.date_and_time_of_burial,
-                        to.query.order_by,
-                        (err, data) => {
-                            next(vm => vm.setData(err, data));
-                        }
-                        );
-                } else {
-                    getBurials(
-                        to.query.page,
-                        to.query.per_page,
-                        to.query.requesters_name,
-                        to.query.name_of_deceased_person,
-                        to.query.relation_to_the_deceased_person,
-                        to.query.place_of_wake,
-                        to.query.place_of_burial,
-                        to.query.date_and_time_of_burial,
-                        to.query.order_by,
-                        (err, data) => {
-                            next(vm => vm.setData(err, data));
-                        }
-                        );
-                }
-            },
-
-            beforeRouteUpdate (to, from, next) {
+        beforeRouteEnter (to, from, next) {
+            if (to.query.per_page == null) {
                 getBurials(
                     to.query.page,
-                    this.meta.per_page,
-                    this.requesters_name,
-                    this.name_of_deceased_person,
-                    this.relation_to_the_deceased_person,
-                    this.place_of_wake,
-                    this.place_of_burial,
-                    this.date_and_time_of_burial,
-                    this.order_by,
+                    10,
+                    to.query.requesters_name,
+                    to.query.name_of_deceased_person,
+                    to.query.relation_to_the_deceased_person,
+                    to.query.place_of_wake,
+                    to.query.place_of_burial,
+                    to.query.date_and_time_of_burial,
+                    to.query.order_by,
                     (err, data) => {
-                        this.setData(err, data);
-                        next();
-                    }
-                    );
-            },
-
-            filters: {
-                DateFormat: function (value) {
-                    if (value) {
-                        return moment(value).format('MMMM DD YYYY h:mm A');
-                    }
-                }
-            },
-
-            computed: {
-                nextPage() {
-                    return this.meta.current_page + 1;
-                },
-                prevPage() {
-                    return this.meta.current_page - 1;
-                },
-                paginatonCount() {
-                    if (! this.meta) {
-                        return;
-                    }
-
-                    const { current_page, last_page } = this.meta;
-
-                    return `${current_page} of ${last_page}`;
-                },
-                pageCount() {
-                    if (this.meta.last_page > 10) {
-                        return false;
-                    }
-
-                    return true;
-                },
-                isPrevDisabled() {
-                    if (this.links.prev == null) {
-                        return 'disabled';
-                    }
-
-                    return;
-                },
-                isNextDisabled() {
-                    if (this.links.next == null) {
-                        return 'disabled';
-                    }
-
-                    return;
-                }
-            },
-
-            methods: {
-                goToFirstPage() {
-                    this.showProgress = true;
-                    this.$router.push({
-                        name: 'burials.index',
-                        query: {
-                            page: 1,
-                            per_page: this.meta.per_page,
-                            requesters_name: this.requesters_name,
-                            name_of_deceased_person: this.name_of_deceased_person,
-                            relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                            place_of_burial: this.place_of_burial,
-                            place_of_wake: this.place_of_wake,
-                            date_of_burial: this.date_and_time_of_burial,
-                            order_by: this.order_by
-                        },
+                        next(vm => vm.setData(err, data));
                     });
-                },
-                goToPage(page = null) {
-                    this.showProgress = true;
-                    this.$router.push({
-                        name: 'burials.index',
-                        query: {
-                            page,
-                            per_page: this.meta.per_page,
-                            requesters_name: this.requesters_name,
-                            name_of_deceased_person: this.name_of_deceased_person,
-                            relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                            place_of_wake: this.place_of_wake,
-                            place_of_burial: this.place_of_burial,
-                            date_of_burial: this.date_and_time_of_burial,
-                            order_by: this.order_by
-                        },
+            } else {
+                getBurials(
+                    to.query.page,
+                    to.query.per_page,
+                    to.query.requesters_name,
+                    to.query.name_of_deceased_person,
+                    to.query.relation_to_the_deceased_person,
+                    to.query.place_of_wake,
+                    to.query.place_of_burial,
+                    to.query.date_and_time_of_burial,
+                    to.query.order_by,
+                    (err, data) => {
+                        next(vm => vm.setData(err, data));
                     });
-                },
-                goToLastPage() {
-                    this.showProgress = true;
-                    this.$router.push({
-                        name: 'burial.index',
-                        query: {
-                            page: this.meta.last_page,
-                            per_page: this.meta.per_page,
-                            requesters_name: this.requesters_name,
-                            name_of_deceased_person: this.name_of_deceased_person,
-                            relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                            place_of_wake: this.place_of_wake,
-                            place_of_burial: this.place_of_burial,
-                            date_of_burial: this.date_and_time_of_burial,
-                            order_by: this.order_by
-                        }
-                    });
-                },
-                goToNextPage() {
-                    this.showProgress = true;
-                    this.$router.push({
-                        name: 'burials.index',
-                        query: {
-                            page: this.nextPage,
-                            per_page: this.meta.per_page,
-                            requesters_name: this.requesters_name,
-                            name_of_deceased_person: this.name_of_deceased_person,
-                            relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                            place_of_wake: this.place_of_wake,
-                            place_of_burial: this.place_of_burial,
-                            date_of_burial: this.date_and_time_of_burial,
-                            order_by: this.order_by
-                        }
-                    });
-                },
-                goToPreviousPage() {
-                    this.showProgress = true;
-                    this.$router.push({
-                        name: 'burials.index',
-                        query: {
-                            page: this.prevPage,
-                            per_page: this.meta.per_page,
-                            requesters_name: this.requesters_name,
-                            name_of_deceased_person: this.name_of_deceased_person,
-                            relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                            place_of_wake: this.place_of_wake,
-                            place_of_burial: this.place_of_burial,
-                            date_of_burial: this.date_and_time_of_burial,
-                            order_by: this.order_by
-                        }
-                    });
-                },
-                setData(err, { data: burials, links, meta }) {
-                    this.pageNumbers = [];
+            }
+        },
 
-                    if (err) {
-                        this.error = err.toString();
-                    } else {
-                        this.burials = burials;
-                        this.links = links;
-                        this.meta = meta;
-                    }
+        beforeRouteUpdate (to, from, next) {
+            getBurials(
+                to.query.page,
+                this.meta.per_page,
+                this.requesters_name,
+                this.name_of_deceased_person,
+                this.relation_to_the_deceased_person,
+                this.place_of_wake,
+                this.place_of_burial,
+                this.date_and_time_of_burial,
+                this.order_by,
+                (err, data) => {
+                    this.setData(err, data);
+                    next();
+                });
+        },
 
-                    this.showProgress = false;
-                    this.populatePages();
-                },
-                populatePages() {
-                    if (this.pageCount) {
-                        for (let i = 1; i <= this.meta.last_page; i++) {
-                            this.pageNumbers.push(i);
-                        }
-                    } else if (this.meta.current_page <= 6) {
-                        let page = 1;
-                        this.pageNumbers.push(page);
-                        this.pageNumbers.push(page + 1);
-                        this.pageNumbers.push(page + 2);
-                        this.pageNumbers.push(page + 3);
-                        this.pageNumbers.push(page + 4);
-                        this.pageNumbers.push(page + 5);
-                        this.pageNumbers.push(page + 6);
-                        this.pageNumbers.push('...');
-                        this.pageNumbers.push(this.meta.last_page - 1);
-                        this.pageNumbers.push(this.meta.last_page);
-                    } else if ((this.meta.current_page + 6) >= this.meta.last_page) {
-                        this.pageNumbers.push(1);
-                        this.pageNumbers.push(2);
-                        this.pageNumbers.push('...');
-                        this.pageNumbers.push(this.meta.last_page - 7);
-                        this.pageNumbers.push(this.meta.last_page - 6);
-                        this.pageNumbers.push(this.meta.last_page - 5);
-                        this.pageNumbers.push(this.meta.last_page - 4);
-                        this.pageNumbers.push(this.meta.last_page - 3);
-                        this.pageNumbers.push(this.meta.last_page - 2);
-                        this.pageNumbers.push(this.meta.last_page - 1);
-                        this.pageNumbers.push(this.meta.last_page);
-                    } else {
-                        this.pageNumbers.push(1);
-                        this.pageNumbers.push(2);
-                        this.pageNumbers.push('...');
-                        this.pageNumbers.push(this.meta.current_page - 2);
-                        this.pageNumbers.push(this.meta.current_page - 1);
-                        this.pageNumbers.push(this.meta.current_page);
-                        this.pageNumbers.push(this.meta.current_page + 1);
-                        this.pageNumbers.push(this.meta.current_page + 2);
-                        this.pageNumbers.push('...');
-                        this.pageNumbers.push(this.meta.last_page - 1);
-                        this.pageNumbers.push(this.meta.last_page);
-                    }
-                },
-                isPageActive(page) {
-                    if (page == this.$route.query.page || (page == 1 && this.$route.query.page == null)) {
-                        return 'active';
-                    }
-
-                    return;
-                },
-                changePerPage() {
-                    this.showProgress = true;
-                    this.$router.push({
-                        name: 'burials.index',
-                        query: {
-                            page: 1,
-                            per_page: this.meta.per_page,
-                            requesters_name: this.requesters_name,
-                            name_of_deceased_person: this.name_of_deceased_person,
-                            relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                            place_of_wake: this.place_of_wake,
-                            place_of_burial: this.place_of_burial,
-                            date_of_burial: this.date_and_time_of_burial,
-                            order_by: this.order_by
-                        }
-                    });
-                },
-                search() {
-                    $('#searchModal').modal('hide');
-                    this.showProgress = true;
-                    this.$router.push({
-                        name: 'burials.index',
-                        query: {
-                            page: 1,
-                            per_page: this.meta.per_page,
-                            requesters_name: this.requesters_name,
-                            name_of_deceased_person: this.name_of_deceased_person,
-                            relation_to_the_deceased_person: this.relation_to_the_deceased_person,
-                            place_of_wake: this.place_of_wake,
-                            place_of_burial: this.place_of_burial,
-                            date_of_burial: this.date_and_time_of_burial,
-                            order_by: this.order_by
-                        }
-                    });
-                },
-                clear() {
-                    this.requesters_name = '';
-                    this.name_of_deceased_person = '';
-                    this.relation_to_the_deceased_person = '';
-                    this.place_of_wake = '';
-                    this.place_of_burial = '';
-                    this.date_and_time_of_burial = '';
-                    this.order_by = 'desc';
-                },
-                openSearchModal() {
-                    $('#searchModal').modal('show');
+        filters: {
+            DateFormat: function (value) {
+                if (value) {
+                    return moment(value).format('MMMM DD YYYY h:mm A');
                 }
             }
+        },
+
+        computed: {
+            nextPage() {
+                return this.meta.current_page + 1;
+            },
+            prevPage() {
+                return this.meta.current_page - 1;
+            },
+            paginatonCount() {
+                if (! this.meta) {
+                    return;
+                }
+
+                const { current_page, last_page } = this.meta;
+
+                return `${current_page} of ${last_page}`;
+            },
+            pageCount() {
+                if (this.meta.last_page > 10) {
+                    return false;
+                }
+
+                return true;
+            },
+            isPrevDisabled() {
+                if (this.links.prev == null) {
+                    return 'disabled';
+                }
+
+                return;
+            },
+            isNextDisabled() {
+                if (this.links.next == null) {
+                    return 'disabled';
+                }
+
+                return;
+            }
+        },
+
+        methods: {
+            goToFirstPage() {
+                this.showProgress = true;
+                this.$router.push({
+                    name: 'burials.index',
+                    query: {
+                        page: 1,
+                        per_page: this.meta.per_page,
+                        requesters_name: this.requesters_name,
+                        name_of_deceased_person: this.name_of_deceased_person,
+                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
+                        place_of_burial: this.place_of_burial,
+                        place_of_wake: this.place_of_wake,
+                        date_of_burial: this.date_and_time_of_burial,
+                        order_by: this.order_by
+                    },
+                });
+            },
+            goToPage(page = null) {
+                this.showProgress = true;
+                this.$router.push({
+                    name: 'burials.index',
+                    query: {
+                        page,
+                        per_page: this.meta.per_page,
+                        requesters_name: this.requesters_name,
+                        name_of_deceased_person: this.name_of_deceased_person,
+                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
+                        place_of_burial: this.place_of_burial,
+                        place_of_wake: this.place_of_wake,
+                        date_of_burial: this.date_and_time_of_burial,
+                        order_by: this.order_by
+                    },
+                });
+            },
+            goToLastPage() {
+                this.showProgress = true;
+                this.$router.push({
+                    name: 'burials.index',
+                    query: {
+                        page: this.meta.last_page,
+                        per_page: this.meta.per_page,
+                        requesters_name: this.requesters_name,
+                        name_of_deceased_person: this.name_of_deceased_person,
+                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
+                        place_of_burial: this.place_of_burial,
+                        place_of_wake: this.place_of_wake,
+                        date_of_burial: this.date_and_time_of_burial,
+                        order_by: this.order_by
+                    }
+                });
+            },
+            goToNextPage() {
+                this.showProgress = true;
+                this.$router.push({
+                    name: 'burials.index',
+                    query: {
+                        page: this.nextPage,
+                        per_page: this.meta.per_page,
+                        requesters_name: this.requesters_name,
+                        name_of_deceased_person: this.name_of_deceased_person,
+                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
+                        place_of_burial: this.place_of_burial,
+                        place_of_wake: this.place_of_wake,
+                        date_of_burial: this.date_and_time_of_burial,
+                        order_by: this.order_by
+                    }
+                });
+            },
+            goToPreviousPage() {
+                this.showProgress = true;
+                this.$router.push({
+                    name: 'burials.index',
+                    query: {
+                        page: this.prevPage,
+                        per_page: this.meta.per_page,
+                        requesters_name: this.requesters_name,
+                        name_of_deceased_person: this.name_of_deceased_person,
+                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
+                        place_of_burial: this.place_of_burial,
+                        place_of_wake: this.place_of_wake,
+                        date_of_burial: this.date_and_time_of_burial,
+                        order_by: this.order_by
+                    }
+                });
+            },
+            setData(err, { data: burials, links, meta }) {
+                this.pageNumbers = [];
+
+                if (err) {
+                    this.error = err.toString();
+                } else {
+                    this.burials = burials;
+                    this.links = links;
+                    this.meta = meta;
+                }
+
+                this.showProgress = false;
+                this.populatePages();
+            },
+            populatePages() {
+                if (this.pageCount) {
+                    for (let i = 1; i <= this.meta.last_page; i++) {
+                        this.pageNumbers.push(i);
+                    }
+                } else if (this.meta.current_page <= 6) {
+                    let page = 1;
+                    this.pageNumbers.push(page);
+                    this.pageNumbers.push(page + 1);
+                    this.pageNumbers.push(page + 2);
+                    this.pageNumbers.push(page + 3);
+                    this.pageNumbers.push(page + 4);
+                    this.pageNumbers.push(page + 5);
+                    this.pageNumbers.push(page + 6);
+                    this.pageNumbers.push('...');
+                    this.pageNumbers.push(this.meta.last_page - 1);
+                    this.pageNumbers.push(this.meta.last_page);
+                } else if ((this.meta.current_page + 6) >= this.meta.last_page) {
+                    this.pageNumbers.push(1);
+                    this.pageNumbers.push(2);
+                    this.pageNumbers.push('...');
+                    this.pageNumbers.push(this.meta.last_page - 7);
+                    this.pageNumbers.push(this.meta.last_page - 6);
+                    this.pageNumbers.push(this.meta.last_page - 5);
+                    this.pageNumbers.push(this.meta.last_page - 4);
+                    this.pageNumbers.push(this.meta.last_page - 3);
+                    this.pageNumbers.push(this.meta.last_page - 2);
+                    this.pageNumbers.push(this.meta.last_page - 1);
+                    this.pageNumbers.push(this.meta.last_page);
+                } else {
+                    this.pageNumbers.push(1);
+                    this.pageNumbers.push(2);
+                    this.pageNumbers.push('...');
+                    this.pageNumbers.push(this.meta.current_page - 2);
+                    this.pageNumbers.push(this.meta.current_page - 1);
+                    this.pageNumbers.push(this.meta.current_page);
+                    this.pageNumbers.push(this.meta.current_page + 1);
+                    this.pageNumbers.push(this.meta.current_page + 2);
+                    this.pageNumbers.push('...');
+                    this.pageNumbers.push(this.meta.last_page - 1);
+                    this.pageNumbers.push(this.meta.last_page);
+                }
+            },
+            isPageActive(page) {
+                if (page == this.$route.query.page || (page == 1 && this.$route.query.page == null)) {
+                    return 'active';
+                }
+
+                return;
+            },
+            changePerPage() {
+                this.showProgress = true;
+                this.$router.push({
+                    name: 'burials.index',
+                    query: {
+                        page: 1,
+                        requesters_name: this.requesters_name,
+                        name_of_deceased_person: this.name_of_deceased_person,
+                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
+                        place_of_burial: this.place_of_burial,
+                        place_of_wake: this.place_of_wake,
+                        date_of_burial: this.date_and_time_of_burial,
+                        order_by: this.order_by
+                    }
+                });
+            },
+            search() {
+                $('#searchModal').modal('hide');
+                this.showProgress = true;
+                this.$router.push({
+                    name: 'burials.index',
+                    query: {
+                        page: 1,
+                        requesters_name: this.requesters_name,
+                        name_of_deceased_person: this.name_of_deceased_person,
+                        relation_to_the_deceased_person: this.relation_to_the_deceased_person,
+                        place_of_burial: this.place_of_burial,
+                        place_of_wake: this.place_of_wake,
+                        date_of_burial: this.date_and_time_of_burial,
+                        order_by: this.order_by
+                    }
+                });
+            },
+            clear() {
+                this.requesters_name = '';
+                this.name_of_deceased_person = '';
+                this.relation_to_the_deceased_person = '';
+                this.place_of_wake = '';
+                this.place_of_burial = '';
+                this.date_and_time_of_burial = '';
+                this.order_by = 'desc';
+            },
+            openSearchModal() {
+                $('#searchModal').modal('show');
+            }
         }
-    </script>
+    }
+</script>

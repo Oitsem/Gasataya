@@ -8,7 +8,7 @@ Route::post('/auth/logout', 'AuthController@apiLogout')->name('logout');
 Route::get('/auth/user', 'AuthController@user');
 
 
-Route::group(['middleware' => ['auth:api']], function () {
+Route::group(['middleware' => ['api']], function () {
     // Burials
     Route::match(['put', 'patch'], '/burials/{burial}/restore', 'BurialsController@restore');
     Route::delete('/burials/{burial}/force-delete', 'BurialsController@forceDestroy');
@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::match(['put', 'patch'], '/persons/{person}/restore', 'PersonsController@restore');
     Route::delete('/persons/{person}/force-delete', 'PersonsController@forceDestroy');
     Route::get('/persons/search', 'PersonsController@search');
+    Route::get('/persons/get-barangays', 'PersonsController@getBarangays');
     Route::resource('persons', 'PersonsController', [
         'only' => [
             'index', 'store', 'show', 'update', 'destroy'

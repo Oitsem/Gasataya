@@ -40,15 +40,6 @@
             Echo.channel('test-channel').listen('TestEvent', (event) => {
                 console.log(event);
             });
-
-            /*setInterval(() => {
-                console.log('fire');
-                axios.get('/api').then(res => {
-                }).catch(err => {
-                    this.ifReady = true;
-                    console.log(err);
-                });
-            }, 5000);*/
         }
     }
 </script>

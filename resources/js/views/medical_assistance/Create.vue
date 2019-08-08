@@ -34,22 +34,28 @@
 
                         <fieldset disabled>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-lg-3 col-md-12">
                                     <div class="form-group">
                                         <label for="name">First Name</label>
-                                        <input type="text" class="form-control" v-model="first_name" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <input type="text" class="form-control" v-model="first_name">
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-lg-3 col-md-12">
                                     <div class="form-group">
                                         <label for="name">Middle Name</label>
-                                        <input type="text" class="form-control" v-model="middle_name" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <input type="text" class="form-control" v-model="middle_name">
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-lg-3 col-md-12">
                                     <div class="form-group">
                                         <label for="name">Last Name</label>
-                                        <input type="text" class="form-control" v-model="last_name" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <input type="text" class="form-control" v-model="last_name">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">Extension Name</label>
+                                        <input type="text" class="form-control" v-model="extension_name">
                                     </div>
                                 </div>
 
@@ -174,7 +180,7 @@
                                 </div>
                                 <div class="form-group" v-if="radiology_others">
                                     <label for="name">Other Details</label>
-                                    <input type="text" class="form-control" v-model="radiology_others_details" autocomplete="off" minlength="2" maxlength="255" required>
+                                    <input type="text" class="form-control" v-model="radiology_others_details" autocomplete="off" minlength="2" maxlength="255">
                                 </div>
                             </div>
                         </div>
@@ -189,14 +195,14 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">PHP</div>
                                         </div>
-                                        <input type="text" class="form-control" v-model="amount" @input="convertAmount()" autocomplete="off" minlength="2" maxlength="255" required>
+                                        <input type="number" class="form-control" v-model="amount" @input="convertAmount()" autocomplete="off" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label for="name">Amount in Words</label>
-                                    <input type="text" class="form-control" v-model="amount_in_words" autocomplete="off" minlength="2" maxlength="255" required disabled>
+                                    <input type="text" class="form-control" v-model="amount_in_words" required disabled>
                                 </div>
                             </div>
                         </div>
@@ -235,6 +241,7 @@
                 first_name: '',
                 middle_name: '',
                 last_name: '',
+                extension_name: '',
                 address: '',
                 amount: '',
                 amount_in_words: '',
